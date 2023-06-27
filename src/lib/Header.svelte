@@ -18,7 +18,7 @@
         >
             <a
                 class="hover:text-purple-200 bg-black/20 p-2 rounded-lg text-center"
-                href="/landing">Home</a
+                href="/">Home</a
             >
             <a
                 class="hover:text-purple-200 rounded-lg text-center"
