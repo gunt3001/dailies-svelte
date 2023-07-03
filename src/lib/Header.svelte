@@ -29,7 +29,7 @@
             >
         </nav>
 
-        <div class="md:ml-auto w-96">
+        <div class="md:ml-auto w-96 max-w-full">
             <div class="relative">
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
