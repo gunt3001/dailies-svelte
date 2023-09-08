@@ -41,7 +41,7 @@
 >
     {#if pillsToCreate > 0}
         {#each dates as x, i}
-            <DatePill date={x} isActive={selectedDate == x} />
+            <DatePill date={x} isActive={selectedDate == x} isIncomplete={false} on:click={() => selectedDate = x}/>
         {/each}
     {/if}
 </div>
