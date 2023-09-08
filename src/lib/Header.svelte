@@ -1,3 +1,10 @@
+<script>
+
+    import { page } from "$app/stores";
+
+    $: currentPath = $page.url.pathname;
+
+</script>
 <header class="text-gray-400 body-font">
     <div
         class="container mx-auto flex flex-wrap py-5 flex-col md:flex-row items-center gap-y-3"
@@ -14,17 +21,17 @@
             <span class="ml-3 text-xl">Dailies</span>
         </a>
         <nav
-            class="md:ml-4 md:pl-4 flex flex-wrap gap-5 items-center text-base justify-center text-white font-semibold"
+            class="md:ml-4 md:pl-4 flex flex-wrap gap-2 items-center text-base justify-center text-white font-semibold"
         >
             <a
-                class="hover:text-purple-200 bg-black/20 p-2 rounded-lg text-center"
+                class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/" ? "bg-black/20" : ""}"
                 href="/">Home</a
             >
             <a
-                class="hover:text-purple-200 rounded-lg text-center"
+                class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/calendar" ? "bg-black/20" : ""}"
                 href="/calendar">Calendar</a
             >
-            <a class="hover:text-purple-200 rounded-lg text-center" href="/list"
+            <a class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/list" ? "bg-black/20" : ""}" href="/list"
                 >List</a
             >
         </nav>
