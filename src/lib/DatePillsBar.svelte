@@ -6,6 +6,7 @@
     const gapWidth = 12;
     const currentDate = new Date();
     let pillsToCreate = 0;
+    let selectedDate = currentDate;
 
     $: pillsToCreate = calculateNumPills(containerWidth);
     $: dates = getDatesToDisplay(pillsToCreate);
@@ -21,7 +22,8 @@
     function getDatesToDisplay(count: number): Date[] {
         let dates = [];
 
-        for (let i = 0; i < count; i++) {
+        dates.push(currentDate);
+        for (let i = 1; i < count; i++) {
             let date = new Date(currentDate);
             date.setDate(date.getDate() - i);
             dates.push(date);
@@ -39,7 +41,7 @@
 >
     {#if pillsToCreate > 0}
         {#each dates as x, i}
-            <DatePill date={x} />
+            <DatePill date={x} isActive={selectedDate == x} />
         {/each}
     {/if}
 </div>
