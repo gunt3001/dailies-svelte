@@ -8,24 +8,14 @@
 >
     <div class="text-center cursor-pointer">
         <div>
-            {#if date.getDay() === 0}
-                <!-- Sunday -->
-                <span class="text-red-500">
-                    {date.toLocaleDateString("en-US", {
-                        weekday: "short",
-                    })}
-                </span>
-            {:else if date.getDay() === 6}
-                <span class="text-blue-500">
-                    {date.toLocaleDateString("en-US", {
-                        weekday: "short",
-                    })}
-                </span>
-            {:else}
+            <span
+                class:text-red-500={date.getDay() === 0}
+                class:text-blue-500={date.getDay() === 6}
+            >
                 {date.toLocaleDateString("en-US", {
                     weekday: "short",
                 })}
-            {/if}
+            </span>
         </div>
         <div class="text-3xl">
             {date.getDate().toString()}
