@@ -34,26 +34,12 @@
 </script>
 
 <div
-    class="inset-0 flex gap-x-3 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:dark:to-gray-900 before:from-70% before:to-95%"
+    class="inset-0 flex gap-x-3 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:dark:to-gray-900 before:from-70% before:to-95% before:pointer-events-none"
     bind:clientWidth={containerWidth}
 >
     {#if pillsToCreate > 0}
         {#each dates as x, i}
-            {#if i === 0}
-                <DatePill
-                    dayNumber={x.getDate().toString()}
-                    dayOfWeek={x.toLocaleDateString("en-US", {
-                        weekday: "short",
-                    })}
-                />
-            {:else}
-                <DatePill
-                    dayNumber={x.getDate().toString()}
-                    dayOfWeek={x.toLocaleDateString("en-US", {
-                        weekday: "short",
-                    })}
-                />
-            {/if}
+            <DatePill date={x} />
         {/each}
     {/if}
 </div>
