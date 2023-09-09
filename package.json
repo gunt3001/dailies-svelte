@@ -29,7 +29,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/free-solid-svg-icons": "^6.4.2",
 		"sqlite": "^4.2.1",
-		"sqlite3": "^5.1.6"
+		"sqlite3": "^5.1.6",
+		"svelte-fa": "^3.0.4"
 	}
 }

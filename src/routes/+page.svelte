@@ -51,6 +51,12 @@
                 </datalist>
             </div>
         </div>
+        <h2 class="my-4 font-semibold text-xl">Remarks</h2>
+        <textarea
+            cols="30"
+            rows="4"
+            class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
+        />
         <div class="text-right">
             <button
                 type="button"
