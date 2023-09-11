@@ -4,8 +4,8 @@
 </script>
 
 
-<div class="absolute">
-    <div class="h-52 w-screen bg-primary"></div>
+<div class="absolute w-full">
+    <div class="h-52 w-full bg-primary"></div>
     <div class="min-h-screen bg-white dark:bg-gray-900"></div>
 </div>
 
