@@ -26,9 +26,9 @@
     }
 </script>
 
-<div class="container mx-auto grid">
+<div class="grid w-full">
     <div
-        class="col md:px-8 py-8 drop-shadow bg-white rounded border dark:bg-gray-900 dark:text-white dark:border-gray-800"
+        class="col md:px-8 py-8 bg-white dark:bg-gray-900 dark:text-white dark:border-gray-800"
     >
         <div class="flex flex-row">
             <button type="button" class="flex-none text-xl px-8">
@@ -84,9 +84,29 @@
                 <tr>
                     {#each week as day}
                         <td
-                            class="p-2 h-32 text-xs sm:text-sm rounded-md border hover:shadow hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 cursor-pointer"
-                            >{day.getDate()}</td
+                            class="p-2 h-32 align-top text-xs sm:text-sm rounded-md border hover:shadow hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 cursor-pointer"
                         >
+                            <p>
+                                <span class="font-semibold text-sm"
+                                    >{day.getDate()}</span
+                                >
+                                <span class="text-sm float-right"
+                                    >x days ago</span
+                                >
+                            </p>
+                            <p class="mt-2">
+                                <span class="font-semibold text-sm"
+                                    >Test Header</span
+                                >
+                            </p>
+                            <p>
+                                <span class="text-xs"
+                                    >Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.</span
+                                >
+                            </p>
+                        </td>
                     {/each}
                 </tr>
             {/each}
