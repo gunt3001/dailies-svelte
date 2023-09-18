@@ -1,7 +1,7 @@
 <script lang="ts">
     import Calendar from "$lib/Calendar.svelte";
     import CalendarHeader from "$lib/CalendarHeader.svelte";
-    import { selectedDate } from "$lib/stores";
+    import { selectedDate } from "$lib/stores/generic";
 </script>
 
 <div class="grid w-full">

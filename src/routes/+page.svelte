@@ -1,5 +1,6 @@
 <script>
     import EntryCard from "$lib/EntryCard.svelte";
+    import { entries, getEntry } from "$lib/stores/entries";
     import DatePillsBar from "../lib/DatePillsBar.svelte";
     let statusText = "";
     let charCount = 0;
@@ -7,6 +8,8 @@
     function updateCharCount() {
         charCount = statusText.length;
     }
+
+    statusText = getEntry($entries, "2023-01-01")?.content ?? "Missing";
 </script>
 
 <div class="container mx-auto grid md:grid-cols-3 gap-4">
