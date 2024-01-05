@@ -1,4 +1,7 @@
 <script lang="ts">
+    import Editor from "./Editor.svelte";
+    import EditorModal from "./EditorModal.svelte";
+
     export let month: number;
     export let year: number;
     const today = new Date();
@@ -56,6 +59,9 @@
 
     let calendarCells: Date[][] = [];
     $: calendarCells = buildCalendarCells(month, year);
+
+    let editorDate: string | null = null;
+
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
@@ -97,6 +103,7 @@
                     class:text-gray-500={day.getMonth() != month ||
                         day.getFullYear() != year}
                     class="p-2 h-32 align-top text-xs sm:text-sm rounded-md border hover:shadow hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 cursor-pointer"
+                    on:click={() => editorDate = "testDate"}
                 >
                     <div>
                         <span class="font-semibold text-sm"
@@ -110,7 +117,7 @@
                         <span class="font-semibold text-sm">Test Header</span>
                     </p>
                     <p>
-                        <span class="text-xs"
+                        <span class="text-xs max-sm:hidden"
                             >Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
                             dolore magna aliqua.</span
@@ -121,3 +128,5 @@
         </tr>
     {/each}
 </table>
+
+<EditorModal editorDate={editorDate} on:close={() => editorDate = null} />
