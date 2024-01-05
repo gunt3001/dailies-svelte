@@ -109,7 +109,7 @@
                         <span class="font-semibold text-sm"
                             >{day.getDate()}</span
                         >
-                        <span class="text-xs"
+                        <span class="text-xs float-right"
                             >{getDayDifferenceText(day, today)}</span
                         >
                     </div>
