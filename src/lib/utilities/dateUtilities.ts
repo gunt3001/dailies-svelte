@@ -41,3 +41,30 @@ export function parseDate(date: string) {
     return new Date(year, month - 1, day);
 
 }
+
+/**
+ * Iterate all the dates between the given dates, inclusive of both dates
+ * 
+ * @param from - starting date
+ * @param to - ending date
+ * @returns Array of all the dates from starting to ending date
+ */
+export function iterateDates(from: Date, to: Date): Date[] {
+
+    // If to date is after from date, return empty array
+    if (to < from) {
+        return [];
+    }
+
+    let returnDates: Date[] = [];
+    let date = new Date(from);
+    while (!isSameDate(date, to)) {
+        returnDates.push(date);
+        
+        date = new Date(date.getFullYear(),
+            date.getMonth(),
+            date.getDate() + 1);
+    }
+
+    return returnDates;
+}
