@@ -1,12 +1,13 @@
 <script lang="ts">
     import DatePill from "./DatePill.svelte";
+    import { selectedDate } from "./stores/generic";
+    import { isSameDate } from "./utilities/dateUtilities";
 
     let containerWidth: number | null = null;
     const pillWidth = 56;
     const gapWidth = 12;
-    const currentDate = new Date();
     let pillsToCreate = 0;
-    let selectedDate = currentDate;
+    let today = new Date();
 
     $: pillsToCreate = calculateNumPills(containerWidth);
     $: dates = getDatesToDisplay(pillsToCreate);
@@ -22,14 +23,12 @@
     function getDatesToDisplay(count: number): Date[] {
         let dates = [];
 
-        dates.push(currentDate);
+        dates.push(today);
         for (let i = 1; i < count; i++) {
-            let date = new Date(currentDate);
+            let date = new Date(today);
             date.setDate(date.getDate() - i);
             dates.push(date);
         }
-
-        console.log(dates);
 
         return dates;
     }
@@ -41,7 +40,12 @@
 >
     {#if pillsToCreate > 0}
         {#each dates as x, i}
-            <DatePill date={x} isActive={selectedDate == x} isIncomplete={false} on:click={() => selectedDate = x}/>
+            <DatePill
+                date={x}
+                isActive={isSameDate(x, $selectedDate)}
+                isIncomplete={false}
+                on:click={() => selectedDate.update(() => x)}
+            />
         {/each}
     {/if}
 </div>
