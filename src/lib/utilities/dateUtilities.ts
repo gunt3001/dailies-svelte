@@ -26,3 +26,18 @@ export function formatDate(date: Date) {
     return dateStr;
 
 }
+
+/**
+ * Parse a date in the format "YYYY-MM-DD" into the Date object.
+ * 
+ * @param date - The date string in "YYYY-MM-DD" format.
+ */
+export function parseDate(date: string) {
+
+    const year = parseInt(date.substring(0, 4));
+    const month = parseInt(date.substring(5, 7));
+    const day = parseInt(date.substring(8, 10));
+
+    return new Date(year, month - 1, day);
+
+}
