@@ -1,5 +1,7 @@
 <script lang="ts">
-    import type IEntry from "./model/IEntry";
+    import { faCampground } from "@fortawesome/free-solid-svg-icons";
+    import Badge, { ColorStyles } from "./Badge.svelte";
+import type IEntry from "./model/IEntry";
 
     // Props
     export let charCountWarning: number;
@@ -11,8 +13,21 @@
     let mood = entry?.mood ?? "";
     let remarks = entry?.remarks ?? "";
     let charCount = 0;
+    let series: string | null = null;
 
-    $: charCount = content.length;
+    $: charCount = content.length - (series ? series.length + 3 : 0);
+    $: series = getSeries(content);
+
+    function getSeries(content: string): string | null {
+        // If the content is prefixed like '[some series name] content',
+        // extract the series name
+        const seriesRegex = /^\[(.+)\] (.+)$/;
+        const match = seriesRegex.exec(content);
+        if (match) {
+            return match[1];
+        }
+        return null;
+    }
 </script>
 
 <textarea
@@ -22,12 +37,17 @@
     placeholder="Say what's going on..."
     bind:value={content}
 />
-<p
-    class="font-semibold text-right text-gray-500"
-    class:text-red-500={charCount > charCountWarning}
->
-    <span>{charCount} / {charCountWarning}</span>
-</p>
+<div class="flex flex-row-reverse justify-between mt-2">
+    <p
+        class="font-semibold text-gray-500 justify-self-end"
+        class:text-red-500={charCount > charCountWarning}
+    >
+        <span>{charCount} / {charCountWarning}</span>
+    </p>
+    {#if series}
+        <Badge icon={faCampground} roundStyle={true} colorStyle={ColorStyles.Blue}>{series}</Badge>
+    {/if}
+</div>
 <div class="grid grid-cols-2 gap-4">
     <div class="col">
         <h2 class="my-4 font-semibold text-xl">Key Event</h2>
