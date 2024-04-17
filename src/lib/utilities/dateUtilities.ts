@@ -65,6 +65,8 @@ export function iterateDates(from: Date, to: Date): Date[] {
             date.getMonth(),
             date.getDate() + 1);
     }
+    // Add last date
+    returnDates.push(to);
 
     return returnDates;
 }
