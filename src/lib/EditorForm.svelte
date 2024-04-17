@@ -12,16 +12,7 @@
     let remarks = entry?.remarks ?? "";
     let charCount = 0;
 
-    $: charCount = updateCharCount(entry);
-
-    // Utilities functions
-    function updateCharCount(entry: IEntry | null): number {
-        if (entry == null) {
-            return 0;
-        } else {
-            return entry?.content.length
-        }
-    }
+    $: charCount = content.length;
 </script>
 
 <textarea
@@ -30,7 +21,6 @@
     class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
     placeholder="Say what's going on..."
     bind:value={content}
-    on:input={updateCharCount}
 />
 <p
     class="font-semibold text-right text-gray-500"
