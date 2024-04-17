@@ -118,6 +118,8 @@ async function fetchEntries(from: Date, to: Date): Promise<IEntries> {
             monthsToFetch.push({ year: date.getFullYear(), month: date.getMonth() + 1 });
             date.setMonth(date.getMonth() + 1);
         }
+        // Add final month
+        monthsToFetch.push({ year: to.getFullYear(), month: to.getMonth() + 1 });
 
         // Fetch entries for each month
         for (const { year, month } of monthsToFetch) {
