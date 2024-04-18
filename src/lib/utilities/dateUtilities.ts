@@ -70,3 +70,23 @@ export function iterateDates(from: Date, to: Date): Date[] {
 
     return returnDates;
 }
+
+/**
+ * Generates an iterator that yields year-month pairs between the given dates
+ * inclusive of both starting and ending months.
+ * @param from The starting date.
+ * @param to The ending date.
+ * @returns An iterator that yields objects with `year` and `month`. Month is 1-based.
+ */
+export function* iterateMonths(from: Date, to: Date) {
+    let month = from.getMonth();
+    let year = from.getFullYear();
+    while (year < to.getFullYear() || (year === to.getFullYear() && month <= to.getMonth())) {
+        yield { year, month: month + 1 };
+        month++;
+        if (month > 11) {
+            month = 0;
+            year++;
+        }
+    }
+}
