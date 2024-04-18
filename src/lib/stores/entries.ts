@@ -2,7 +2,7 @@ import { API_ENDPOINT_URL, LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, NEARBY_ENTR
 import type IEntries from "$lib/model/IEntries";
 import type { ILegacyEntry } from "$lib/model/IEntry";
 import type IEntry from "$lib/model/IEntry";
-import { formatDate, iterateDates } from "$lib/utilities/dateUtilities";
+import { formatDate, iterateDates, iterateMonths } from "$lib/utilities/dateUtilities";
 import { get, writable } from "svelte/store";
 
 function createEntriesStore() {
@@ -37,18 +37,19 @@ function createEntriesStore() {
             return null;
         },
         getEntries: async function (from: Date, to: Date): Promise<IEntries> {
-            // Convert date to "YYYY-MM-DD" format in local timezone
-            const fromDateStr = formatDate(from);
-            const toDateStr = formatDate(to);
 
-            // If any of the requested date has no cached entry,
-            // fetch the entire thing from backend
-            let entries = get(this);
-            const hasMissingEntries =
-                iterateDates(from, to)
-                    .findIndex(x => !(formatDate(x) in entries)) != -1;
-            if (hasMissingEntries) {
-                const newEntries = await fetchEntries(from, to);
+            // From the given date range, try to fetch the smallest range of entries
+            // that is not yet cached in the store
+            let datesToFetch = iterateDates(from, to);
+            let storeEntries = get(this);
+            const firstIndexWithoutCache = datesToFetch
+                .findIndex(x => !(formatDate(x) in storeEntries));
+            const lastIndexWithoutCache = datesToFetch
+                .findLastIndex(x => !(formatDate(x) in storeEntries));
+            if (firstIndexWithoutCache != -1 && lastIndexWithoutCache != -1) {
+                const firstDateToFetch = datesToFetch[firstIndexWithoutCache];
+                const lastDateToFetch = datesToFetch[lastIndexWithoutCache];
+                const newEntries = await fetchEntries(firstDateToFetch, lastDateToFetch);
 
                 // Update values into store
                 for (const [key, value] of Object.entries(newEntries)) {
@@ -56,14 +57,13 @@ function createEntriesStore() {
                         return { ...entries, [key]: value };
                     });
                 }
-
             }
 
             // Return values from the updated store
-            entries = get(this);
+            storeEntries = get(this);
             let returnEntries = {} as IEntries;
             for (let date of iterateDates(from, to).map(formatDate)) {
-                returnEntries[date] = entries[date];
+                returnEntries[date] = storeEntries[date];
             }
 
             return returnEntries;
@@ -111,15 +111,7 @@ async function fetchEntries(from: Date, to: Date): Promise<IEntries> {
         // Fetch entries for all months in the range
 
         // Create an array of year and month pairs
-        let monthsToFetch: { year: number, month: number }[] = [];
-        let date = new Date(from);
-        while (!(date.getFullYear() === to.getFullYear() &&
-            date.getMonth() === to.getMonth())) {
-            monthsToFetch.push({ year: date.getFullYear(), month: date.getMonth() + 1 });
-            date.setMonth(date.getMonth() + 1);
-        }
-        // Add final month
-        monthsToFetch.push({ year: to.getFullYear(), month: to.getMonth() + 1 });
+        let monthsToFetch = iterateMonths(from, to);
 
         // Fetch entries for each month
         for (const { year, month } of monthsToFetch) {
@@ -129,7 +121,7 @@ async function fetchEntries(from: Date, to: Date): Promise<IEntries> {
             // Loop through every day of the requested month
             // If the entry is not found, set it to null
             // Otherwise, convert the entry to the new format
-            date = new Date(year, month - 1, 1);
+            let date = new Date(year, month - 1, 1);
             while (date.getMonth() === month - 1) {
                 const dateStr = formatDate(date);
                 const existingEntry = entries.find((entry) => entry.date.startsWith(dateStr));
