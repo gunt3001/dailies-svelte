@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Editor from "./Editor.svelte";
+    import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
+    import { entries } from "./stores/entries";
 
     export let month: number;
     export let year: number;
-    const today = new Date();
 
     function buildCalendarCells(month: number, year: number): Date[][] {
         // First get day of month
@@ -29,39 +29,19 @@
         return daysToDisplay;
     }
 
-    function getDayDifferenceText(date: Date, inReferenceTo: Date): string {
-        // Remove both time components
-        date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        inReferenceTo = new Date(
-            inReferenceTo.getFullYear(),
-            inReferenceTo.getMonth(),
-            inReferenceTo.getDate()
-        );
-
-        // Calculate the time difference in milliseconds
-        const timeDifference = date.getTime() - inReferenceTo.getTime();
-
-        // Convert milliseconds to days
-        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-        if (daysDifference < -1) {
-            return (Math.round(daysDifference) * -1).toLocaleString() + " days ago";
-        } else if (daysDifference == -1) {
-            return "Yesterday";
-        } else if (daysDifference == 1) {
-            return "Tomorrow";
-        } else if (daysDifference >= 1) {
-            return "in " + Math.round(daysDifference).toLocaleString() + " days";
-        } else {
-            return "Today";
-        }
-    }
-
     let calendarCells: Date[][] = [];
     $: calendarCells = buildCalendarCells(month, year);
 
-    let editorDate: string | null = null;
+    // Fetch entries as month & year change
+    async function updateCalendarCells(calendarCells: Date[][]) {
+        await entries.getEntries(
+            calendarCells[0][0],
+            calendarCells[calendarCells.length - 1][6],
+        );
+    }
+    $: updateCalendarCells(calendarCells);
 
+    let editorDate: string | null = null;
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
@@ -99,34 +79,14 @@
     {#each calendarCells as week}
         <tr>
             {#each week as day}
-                <td
-                    class:text-gray-500={day.getMonth() != month ||
-                        day.getFullYear() != year}
-                    class="p-2 h-32 align-top text-xs sm:text-sm rounded-md border hover:shadow hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 cursor-pointer"
-                    on:click={() => editorDate = "testDate"}
-                >
-                    <div>
-                        <span class="font-semibold text-sm"
-                            >{day.getDate()}</span
-                        >
-                        <span class="text-xs float-right"
-                            >{getDayDifferenceText(day, today)}</span
-                        >
-                    </div>
-                    <p class="mt-2">
-                        <span class="font-semibold text-sm">Test Header</span>
-                    </p>
-                    <p>
-                        <span class="text-xs max-sm:hidden"
-                            >Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.</span
-                        >
-                    </p>
-                </td>
+                <CalendarCell
+                    {day}
+                    isCurrentMonth={day.getMonth() == month &&
+                        day.getFullYear() == year}
+                />
             {/each}
         </tr>
     {/each}
 </table>
 
-<EditorModal editorDate={editorDate} on:close={() => editorDate = null} />
+<EditorModal {editorDate} on:close={() => (editorDate = null)} />
