@@ -3,6 +3,10 @@
     import Header from "../lib/Header.svelte";
 </script>
 
+<svelte:head>
+    <title>Dailies</title>
+</svelte:head>
+
 
 <div class="absolute w-full">
     <div class="h-52 w-full bg-primary"></div>
