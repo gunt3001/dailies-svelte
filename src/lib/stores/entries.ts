@@ -141,6 +141,15 @@ async function fetchEntries(from: Date, to: Date): Promise<IEntries> {
         for (const entry of entries) {
             newEntries[entry.date] = entry;
         }
+
+        // Loop through missing entries returned from API
+        // Fill them with nulls to signify entries yet to be created
+        for (let date of iterateDates(from, to)) {
+            let formattedDate = formatDate(date);
+            if (!(formattedDate in newEntries)) {
+                newEntries[formattedDate] = null;
+            }
+        }
     }
 
     return newEntries;
