@@ -8,7 +8,7 @@ export const ENTRY_CONTENT_WARN_LENGTH = 180;
 
 // When fetching an entry from the server, determine how many extra entries 
 // before and after the requested entry to pre-fetch.
-export const NEARBY_ENTRIES_TO_PREFETCH = 7;
+export const NEARBY_ENTRIES_TO_PREFETCH = 0;
 
 // Whether to use the legacy API mode (compatible with classic Dailies app)
 export const LEGACY_API_MODE = false;
