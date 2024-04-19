@@ -1,11 +1,12 @@
 <script lang="ts">
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
-import type IEntry from "./model/IEntry";
+    import type IEntry from "./model/IEntry";
 
     // Props
     export let charCountWarning: number;
     export let entry: IEntry | null;
+    export let modified = false;
 
     // Form variables
     let content = entry?.content ?? "";
@@ -17,6 +18,14 @@ import type IEntry from "./model/IEntry";
 
     $: charCount = content.length - (series ? series.length + 3 : 0);
     $: series = getSeries(content);
+    $: modified =
+        (entry !== null &&
+            (entry.content != content ||
+                entry.keyEvent != keyEvent ||
+                entry.mood != mood ||
+                entry.remarks != remarks)) ||
+        (entry === null &&
+            (content != "" || keyEvent != "" || mood != "" || remarks != ""));
 
     function getSeries(content: string): string | null {
         // If the content is prefixed like '[some series name] content',
@@ -45,7 +54,11 @@ import type IEntry from "./model/IEntry";
         <span>{charCount} / {charCountWarning}</span>
     </p>
     {#if series}
-        <Badge icon={faCampground} roundStyle={true} colorStyle={ColorStyles.Blue}>{series}</Badge>
+        <Badge
+            icon={faCampground}
+            roundStyle={true}
+            colorStyle={ColorStyles.Blue}>{series}</Badge
+        >
     {/if}
 </div>
 <div class="grid grid-cols-2 gap-4">

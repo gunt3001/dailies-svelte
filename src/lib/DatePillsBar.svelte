@@ -1,7 +1,11 @@
 <script lang="ts">
     import DatePill from "./DatePill.svelte";
-    import { selectedDate } from "./stores/generic";
     import { isSameDate } from "./utilities/dateUtilities";
+    import {
+        mainEditorHasUnsavedChanges,
+        selectedDate,
+    } from "./stores/generic";
+    import { browserConfirm } from "./utilities/confirm";
 
     let containerWidth: number | null = null;
     const pillWidth = 56;
@@ -32,6 +36,13 @@
 
         return dates;
     }
+
+    function onNavigate(newDate: Date) {
+        // If there are unsaved changes in the editor, ask for confirmation
+        if (!$mainEditorHasUnsavedChanges || browserConfirm()) {
+            selectedDate.update(() => newDate);
+        }
+    }
 </script>
 
 <div
@@ -44,7 +55,7 @@
                 date={x}
                 isActive={isSameDate(x, $selectedDate)}
                 isIncomplete={false}
-                on:click={() => selectedDate.update(() => x)}
+                on:click={() => onNavigate(x)}
             />
         {/each}
     {/if}
