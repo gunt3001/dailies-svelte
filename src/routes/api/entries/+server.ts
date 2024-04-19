@@ -12,6 +12,8 @@ export async function GET(param: RequestEvent) {
     const toDate = parseDate(url.searchParams.get("to")!);
 
     const returnVal = iterateDates(fromDate, toDate)
+        // Except every days divisble by 5
+        .filter(x => x.getDate() % 5 != 0)
         .map(date => {
             const formattedDate = formatDate(date);
             let entry = {
