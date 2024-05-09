@@ -1,7 +1,9 @@
 <script lang="ts">
+    import { afterUpdate, onMount } from "svelte";
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
     import { entries } from "./stores/entries";
+    import { browser } from "$app/environment";
 
     export let month: number;
     export let year: number;
@@ -32,15 +34,19 @@
     let calendarCells: Date[][] = [];
     $: calendarCells = buildCalendarCells(month, year);
 
-    // Fetch entries as month & year change
+    // Handle fetching entries as calendar is loaded
     async function updateCalendarCells(calendarCells: Date[][]) {
         await entries.getEntries(
             calendarCells[0][0],
             calendarCells[calendarCells.length - 1][6],
         );
     }
-    $: updateCalendarCells(calendarCells);
 
+    // Use reactive statement to fetch, but avoid fetching when
+    // on server-side
+    $: if (browser) {
+        updateCalendarCells(calendarCells);
+    }
     let editorDate: string | null = null;
 </script>
 
