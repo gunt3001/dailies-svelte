@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import type IEntry from "./model/IEntry";
