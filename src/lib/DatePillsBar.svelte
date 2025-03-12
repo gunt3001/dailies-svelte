@@ -4,6 +4,8 @@
     import { appState } from "./states/global.svelte";
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
+    import MorePill from "./MorePill.svelte";
+    import { goto } from "$app/navigation";
 
     // Define pill width and gap width
     const pillWidth = 56;
@@ -35,6 +37,15 @@
         }
     }
 
+    // Navigate to the date on the calendar view
+    function onCalendarNavigate(newDate: Date) {
+        // If there are unsaved changes in the editor, ask for confirmation
+        if (!appState.mainEditorHasUnsavedChanges || browserConfirm()) {
+            appState.selectedDate = newDate;
+            goto(`/calendar`);
+        }
+    }
+
 </script>
 
 <div
@@ -43,12 +54,20 @@
 >
     {#if pillsToCreate > 0}
         {#each dates as x, i}
-            <DatePill
-                date={x}
-                isActive={isSameDate(x, appState.selectedDate)}
-                isIncomplete={$entries[formatDate(x)] === null}
-                onClick={() => onNavigate(x)}
-            />
+            {#if i == dates.length - 1}
+                <!-- Last pill is a special pill button that goes to calendar view -->
+                <MorePill
+                    onClick={() => onCalendarNavigate(x)}
+                />
+            {:else}
+                <!-- Regular date pill -->
+                <DatePill
+                    date={x}
+                    isActive={isSameDate(x, appState.selectedDate)}
+                    isIncomplete={$entries[formatDate(x)] === null}
+                    onClick={() => onNavigate(x)}
+                />
+            {/if}
         {/each}
     {/if}
 </div>
