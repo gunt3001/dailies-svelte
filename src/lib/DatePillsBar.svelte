@@ -69,7 +69,7 @@
                 date={x}
                 isActive={isSameDate(x, appState.selectedDate)}
                 isIncomplete={$entries[formatDate(x)] === null}
-                on:click={() => onNavigate(x)}
+                onClick={() => onNavigate(x)}
             />
         {/each}
     {/if}
