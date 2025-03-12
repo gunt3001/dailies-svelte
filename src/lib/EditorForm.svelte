@@ -15,14 +15,29 @@
 
     let { charCountWarning, entry }: Props = $props();
 
-    // Form variables
+    // Form fields
+    // We maintain states for the fields separate from the entry object
+    // so that we can detect changes in the form fields
     let content = $state(entry?.content ?? "");
     let keyEvent = $state(entry?.keyEvent ?? "");
     let mood = $state(entry?.mood ?? "");
     let remarks = $state(entry?.remarks ?? "");
-    let charCount = $state(0);
-    let series: string | null = $state(null);
 
+    // Derived states
+    let series = $derived(getSeries(content));
+    let charCount = $derived(content.length - (series ? series.length + 3 : 0));
+
+    // Update global state when there are changes in the form fields
+    function onFormFieldUpdated() {
+        appState.mainEditorHasUnsavedChanges =
+            (entry !== null &&
+                (entry.content != content ||
+                    entry.keyEvent != keyEvent ||
+                    entry.mood != mood ||
+                    entry.remarks != remarks)) ||
+            (entry === null &&
+                (content != "" || keyEvent != "" || mood != "" || remarks != ""));
+    }
 
     function getSeries(content: string): string | null {
         // If the content is prefixed like '[some series name] content',
@@ -34,22 +49,6 @@
         }
         return null;
     }
-    run(() => {
-        series = getSeries(content);
-    });
-    run(() => {
-        charCount = content.length - (series ? series.length + 3 : 0);
-    });
-    run(() => {
-        appState.mainEditorHasUnsavedChanges =
-            (entry !== null &&
-                (entry.content != content ||
-                    entry.keyEvent != keyEvent ||
-                    entry.mood != mood ||
-                    entry.remarks != remarks)) ||
-            (entry === null &&
-                (content != "" || keyEvent != "" || mood != "" || remarks != ""));
-    });
 </script>
 
 <textarea
@@ -58,6 +57,7 @@
     class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
     placeholder="Say what's going on..."
     bind:value={content}
+    oninput={() => onFormFieldUpdated()}
 ></textarea>
 <div class="flex flex-row-reverse justify-between mt-2">
     <p
@@ -81,6 +81,7 @@
             type="text"
             class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l"
             bind:value={keyEvent}
+            oninput={() => onFormFieldUpdated()}
         />
     </div>
     <div class="col">
@@ -90,6 +91,7 @@
             list="mood-list"
             class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l"
             bind:value={mood}
+            oninput={() => onFormFieldUpdated()}
         />
         <datalist id="mood-list">
             <option value="Relaxed">Relaxed (100)</option>
@@ -104,6 +106,7 @@
     rows="4"
     class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
     bind:value={remarks}
+    oninput={() => onFormFieldUpdated()}
 ></textarea>
 <div class="text-right">
     <button
