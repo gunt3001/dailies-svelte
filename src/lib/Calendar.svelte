@@ -53,37 +53,39 @@ https://svelte.dev/e/node_invalid_placement -->
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
-    <tr>
-        <th class="py-2 text-red-500">
-            <span class="inline sm:hidden">S</span>
-            <span class="hidden sm:inline">Sunday</span>
-        </th>
-        <th class="py-2">
-            <span class="inline sm:hidden">M</span>
-            <span class="hidden sm:inline">Monday</span>
-        </th>
-        <th class="py-2">
-            <span class="inline sm:hidden">T</span>
-            <span class="hidden sm:inline">Tuesday</span>
-        </th>
-        <th class="py-2">
-            <span class="inline sm:hidden">W</span>
-            <span class="hidden sm:inline">Wednesday</span>
-        </th>
-        <th class="py-2">
-            <span class="inline sm:hidden">T</span>
-            <span class="hidden sm:inline">Thursday</span>
-        </th>
-        <th class="py-2">
-            <span class="inline sm:hidden">F</span>
-            <span class="hidden sm:inline">Friday</span>
-        </th>
-        <th class="py-2 text-blue-500">
-            <span class="inline sm:hidden">S</span>
-            <span class="hidden sm:inline">Saturday</span>
-        </th>
-    </tr>
-
+    <thead>
+        <tr>
+            <th class="py-2 text-red-500">
+                <span class="inline sm:hidden">S</span>
+                <span class="hidden sm:inline">Sunday</span>
+            </th>
+            <th class="py-2">
+                <span class="inline sm:hidden">M</span>
+                <span class="hidden sm:inline">Monday</span>
+            </th>
+            <th class="py-2">
+                <span class="inline sm:hidden">T</span>
+                <span class="hidden sm:inline">Tuesday</span>
+            </th>
+            <th class="py-2">
+                <span class="inline sm:hidden">W</span>
+                <span class="hidden sm:inline">Wednesday</span>
+            </th>
+            <th class="py-2">
+                <span class="inline sm:hidden">T</span>
+                <span class="hidden sm:inline">Thursday</span>
+            </th>
+            <th class="py-2">
+                <span class="inline sm:hidden">F</span>
+                <span class="hidden sm:inline">Friday</span>
+            </th>
+            <th class="py-2 text-blue-500">
+                <span class="inline sm:hidden">S</span>
+                <span class="hidden sm:inline">Saturday</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
     {#each calendarCells as week}
         <tr>
             {#each week as day}
@@ -95,6 +97,7 @@ https://svelte.dev/e/node_invalid_placement -->
             {/each}
         </tr>
     {/each}
+    </tbody>
 </table>
 
 <EditorModal {editorDate} on:close={() => (editorDate = null)} />
