@@ -1,8 +1,8 @@
 <script>
 
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
 
-    let currentPath = $derived($page.url.pathname);
+    let currentPath = $derived(page.url.pathname);
 
 </script>
 <header class="text-gray-400 body-font">
