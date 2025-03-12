@@ -1,7 +1,6 @@
-import type IEntries from '$lib/model/IEntries';
 import { json } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
-import { formatDate, isSameDate, iterateDates, parseDate } from '$lib/utilities/dateUtilities';
+import { formatDate, iterateDates, parseDate } from '$lib/utilities/dateUtilities';
 import type IEntry from '$lib/model/IEntry';
 
 export async function GET(param: RequestEvent) {
