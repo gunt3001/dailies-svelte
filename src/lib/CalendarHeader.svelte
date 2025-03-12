@@ -10,6 +10,7 @@
         year: number;
     }
 
+    // Create bindable props so this component can update month and year state in the parent (Calendar.svelte)
     let { month = $bindable(), year = $bindable() }: Props = $props();
 
     function incrementMonth(amount: number) {
