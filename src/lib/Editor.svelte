@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { entries } from "$lib/stores/entries";
     import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
@@ -12,23 +10,18 @@
     import { beforeNavigate } from "$app/navigation";
     import { browserConfirm } from "./utilities/confirm";
 
-    // Initialize variables
-    let modified: boolean = $state(false);
-
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
         const entry = await entries.getEntry(selectedDate);
         return entry;
     }
 
+    // Stop user from navigating away if there are unsaved changes
     beforeNavigate(({ cancel }) => {
-        if (modified && !browserConfirm()) {
+        if (appState.mainEditorHasUnsavedChanges && !browserConfirm()) {
             cancel();
         }
     });
 
-    run(() => {
-        appState.mainEditorHasUnsavedChanges = modified;
-    });
 </script>
 
 <div>
@@ -45,7 +38,7 @@
                     >New entry</Badge
                 >
             {/if}
-            {#if modified}
+            {#if appState.mainEditorHasUnsavedChanges}
                 <Badge
                     icon={faPen}
                     roundStyle={false}
@@ -54,7 +47,6 @@
             {/if}
         </div>
         <EditorForm
-            bind:modified
             charCountWarning={ENTRY_CONTENT_WARN_LENGTH}
             {entry}
         />

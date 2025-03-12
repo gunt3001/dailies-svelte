@@ -4,16 +4,16 @@
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import type IEntry from "./model/IEntry";
+    import { appState } from './states/global.svelte';
 
     
     interface Props {
         // Props
         charCountWarning: number;
         entry: IEntry | null;
-        modified?: boolean;
     }
 
-    let { charCountWarning, entry, modified = $bindable(false) }: Props = $props();
+    let { charCountWarning, entry }: Props = $props();
 
     // Form variables
     let content = $state(entry?.content ?? "");
@@ -41,7 +41,7 @@
         charCount = content.length - (series ? series.length + 3 : 0);
     });
     run(() => {
-        modified =
+        appState.mainEditorHasUnsavedChanges =
             (entry !== null &&
                 (entry.content != content ||
                     entry.keyEvent != keyEvent ||
