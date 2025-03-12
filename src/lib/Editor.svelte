@@ -13,7 +13,7 @@
     import { browserConfirm } from "./utilities/confirm";
 
     // Initialize variables
-    let modified: boolean = $state();
+    let modified: boolean = $state(false);
 
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
         const entry = await entries.getEntry(selectedDate);
