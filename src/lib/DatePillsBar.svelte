@@ -3,10 +3,7 @@
 
     import DatePill from "./DatePill.svelte";
     import { entries } from "./stores/entries";
-    import {
-        mainEditorHasUnsavedChanges,
-        selectedDate,
-    } from "./stores/generic";
+    import { appState } from "./states/global.svelte";
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
 
@@ -40,8 +37,8 @@
 
     function onNavigate(newDate: Date) {
         // If there are unsaved changes in the editor, ask for confirmation
-        if (!$mainEditorHasUnsavedChanges || browserConfirm()) {
-            selectedDate.update(() => newDate);
+        if (!appState.mainEditorHasUnsavedChanges || browserConfirm()) {
+            appState.selectedDate = newDate;
         }
     }
 
@@ -70,7 +67,7 @@
         {#each dates as x, i}
             <DatePill
                 date={x}
-                isActive={isSameDate(x, $selectedDate)}
+                isActive={isSameDate(x, appState.selectedDate)}
                 isIncomplete={$entries[formatDate(x)] === null}
                 on:click={() => onNavigate(x)}
             />

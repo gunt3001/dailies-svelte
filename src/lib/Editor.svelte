@@ -7,7 +7,7 @@
     import { ENTRY_CONTENT_WARN_LENGTH } from "./Constants";
     import EditorForm from "./EditorForm.svelte";
     import type IEntry from "./model/IEntry";
-    import { mainEditorHasUnsavedChanges, selectedDate } from "./stores/generic";
+    import { appState } from "./states/global.svelte";
     import { toLongDate } from "./utilities/dateFormatter";
     import { beforeNavigate } from "$app/navigation";
     import { browserConfirm } from "./utilities/confirm";
@@ -27,18 +27,18 @@
     });
 
     run(() => {
-        $mainEditorHasUnsavedChanges = modified;
+        appState.mainEditorHasUnsavedChanges = modified;
     });
 </script>
 
 <div>
-    {#await fetchEntry($selectedDate)}
-        <h1 class="my-4 font-semibold text-2xl">{toLongDate($selectedDate)}</h1>
+    {#await fetchEntry(appState.selectedDate)}
+        <h1 class="my-4 font-semibold text-2xl">{toLongDate(appState.selectedDate)}</h1>
         <p>Loading entry...</p>
     {:then entry}
         <div class="flex flex-row gap items-baseline">
             <h1 class="my-4 mr-4 font-semibold text-2xl">
-                {toLongDate($selectedDate)}
+                {toLongDate(appState.selectedDate)}
             </h1>
             {#if entry === null}
                 <Badge icon={faPenToSquare} colorStyle={ColorStyles.Gray}
@@ -59,7 +59,7 @@
             {entry}
         />
     {:catch}
-        <h1 class="my-4 font-semibold text-2xl">{toLongDate($selectedDate)}</h1>
+        <h1 class="my-4 font-semibold text-2xl">{toLongDate(appState.selectedDate)}</h1>
         <p>Failed to load entry.</p>
     {/await}
 </div>
