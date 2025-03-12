@@ -1,36 +1,24 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { formatDate } from "./utilities/dateUtilities";
     import { entries } from "./stores/entries";
     import type IEntry from "./model/IEntry";
 
     interface Props {
-        day: Date;
-        isCurrentMonth: boolean;
+        day: Date; // The date for this cell
+        isCurrentMonth: boolean; // Whether the date is part of the selected month in Calendar view
     }
 
     let { day, isCurrentMonth }: Props = $props();
 
-    let today = new Date();
+    // State variables
 
-    let header = $state("");
     // Current entry
     // null means empty entry. undefined means loading.
-    let activeEntry: IEntry | null | undefined = $state(null);
-    run(() => {
-        activeEntry = $entries[formatDate(day)];
-    });
+    let activeEntry: IEntry | null | undefined = $derived($entries[formatDate(day)]);
 
-    run(() => {
-        header =
-            activeEntry === undefined ? "Loading..." : activeEntry?.keyEvent ?? "";
-    });
-    let content = $state("");
-    run(() => {
-        content = 
-            activeEntry === undefined ? "Loading..." : activeEntry?.content ?? "";
-    });
+    // Entry details
+    let header = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.keyEvent ?? "");
+    let content = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.content ?? "");
 
     function getDayDifferenceText(date: Date, inReferenceTo: Date): string {
         // Remove both time components
@@ -72,7 +60,7 @@
     <div>
         <span class="font-semibold text-sm">{day.getDate()}</span>
         <span class="text-xs float-right"
-            >{getDayDifferenceText(day, today)}</span
+            >{getDayDifferenceText(day, new Date())}</span
         >
     </div>
     <p class="mt-2">
