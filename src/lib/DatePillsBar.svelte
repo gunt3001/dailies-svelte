@@ -1,30 +1,23 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import DatePill from "./DatePill.svelte";
     import { entries } from "./stores/entries";
     import { appState } from "./states/global.svelte";
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
 
-    let containerWidth: number | null = $state(null);
+    // Define pill width and gap width
     const pillWidth = 56;
     const gapWidth = 12;
-    let pillsToCreate = $state(0);
-    let today = new Date();
 
-
-    function calculateNumPills(containerWidth: number | null): number {
-        if (containerWidth) {
-            return Math.floor(containerWidth / (pillWidth + gapWidth));
-        }
-
-        return 0;
-    }
+    // Keep track of container width in a state
+    let containerWidth: number | null = $state(null);
+    let pillsToCreate = $derived(containerWidth ? Math.floor(containerWidth / (pillWidth + gapWidth)) : 0);
+    let dates = $derived(getDatesToDisplay(pillsToCreate));
 
     function getDatesToDisplay(count: number): Date[] {
         let dates = [];
 
+        let today = new Date();
         dates.push(today);
         for (let i = 1; i < count; i++) {
             let date = new Date(today);
@@ -50,10 +43,6 @@
             await entries.getEntries(dates[dates.length - 1], dates[0]);
         }
     }
-    run(() => {
-        pillsToCreate = calculateNumPills(containerWidth);
-    });
-    let dates = $derived(getDatesToDisplay(pillsToCreate));
 </script>
 
 <div
