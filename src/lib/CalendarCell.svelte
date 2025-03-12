@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatDate } from "./utilities/dateUtilities";
-    import { entries } from "./stores/entries";
+    import { entriesManager } from "./states/entries.svelte";
     import type IEntry from "./model/IEntry";
 
     interface Props {
@@ -14,7 +14,7 @@
 
     // Current entry
     // null means empty entry. undefined means loading.
-    let activeEntry: IEntry | null | undefined = $derived($entries[formatDate(day)]);
+    let activeEntry: IEntry | null | undefined = $derived(entriesManager.entries[formatDate(day)]);
 
     // Entry details
     let header = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.keyEvent ?? "");

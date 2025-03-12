@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { entries } from "$lib/stores/entries";
+    import { entriesManager } from "$lib/states/entries.svelte";
     import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import { ENTRY_CONTENT_WARN_LENGTH } from "./Constants";
@@ -16,7 +16,7 @@
         if (!browser) {
             return null;
         }
-        const entry = await entries.getEntry(selectedDate);
+        const entry = await entriesManager.fetchEntry(selectedDate);
         return entry;
     }
 

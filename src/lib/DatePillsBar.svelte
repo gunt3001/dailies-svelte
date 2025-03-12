@@ -1,6 +1,6 @@
 <script lang="ts">
     import DatePill from "./DatePill.svelte";
-    import { entries } from "./stores/entries";
+    import { entriesManager } from "./states/entries.svelte";
     import { appState } from "./states/global.svelte";
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
@@ -64,7 +64,7 @@
                 <DatePill
                     date={x}
                     isActive={isSameDate(x, appState.selectedDate)}
-                    isIncomplete={$entries[formatDate(x)] === null}
+                    isIncomplete={entriesManager.entries[formatDate(x)] === null}
                     onClick={() => onNavigate(x)}
                 />
             {/if}
