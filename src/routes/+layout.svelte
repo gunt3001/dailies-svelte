@@ -1,6 +1,11 @@
-<script>
+<script lang="ts">
     import "../app.css";
     import Header from "../lib/Header.svelte";
+    interface Props {
+        children?: import('svelte').Snippet;
+    }
+
+    let { children }: Props = $props();
 </script>
 
 <svelte:head>
@@ -15,5 +20,5 @@
 
 <div class="relative">
     <Header />
-    <slot></slot>
+    {@render children?.()}
 </div>

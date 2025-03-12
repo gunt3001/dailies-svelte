@@ -5,8 +5,13 @@
         faChevronRight,
     } from "@fortawesome/free-solid-svg-icons";
 
-    export let month: number;
-    export let year: number;
+    interface Props {
+        month: number;
+        year: number;
+    }
+
+    // Create bindable props so this component can update month and year state in the parent (Calendar.svelte)
+    let { month = $bindable(), year = $bindable() }: Props = $props();
 
     function incrementMonth(amount: number) {
         month += amount;
@@ -25,7 +30,7 @@
     <button
         type="button"
         class="flex-none text-xl px-8"
-        on:click={(_) => incrementMonth(-1)}
+        onclick={(_) => incrementMonth(-1)}
     >
         <Fa icon={faChevronLeft} />
     </button>
@@ -37,13 +42,13 @@
             class="rounded dark:bg-gray-900 pr-2 pl-4 py-1 text-center"
             type="number"
             value={year}
-            on:input={(e) => (year = parseInt(e.currentTarget.value))}
+            oninput={(e) => (year = parseInt(e.currentTarget.value))}
         />
     </div>
     <button
         type="button"
         class="flex-none text-xl px-8"
-        on:click={(_) => incrementMonth(1)}
+        onclick={(_) => incrementMonth(1)}
     >
         <Fa icon={faChevronRight} />
     </button>

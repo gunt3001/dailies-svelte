@@ -1,10 +1,12 @@
 <script lang="ts">
     import Calendar from "$lib/Calendar.svelte";
     import CalendarHeader from "$lib/CalendarHeader.svelte";
-    import { selectedDate } from "$lib/stores/generic";
+    import { appState } from "$lib/states/global.svelte";
 
-    let calendarMonth = $selectedDate.getMonth();
-    let calendarYear = $selectedDate.getFullYear();
+    // Default calendar month to current app-wide date
+    // Note tht if the month is changed, it is not reflected back to the app-wide date
+    let calendarMonth = $state(appState.selectedDate.getMonth());
+    let calendarYear = $state(appState.selectedDate.getFullYear());
 
 </script>
 

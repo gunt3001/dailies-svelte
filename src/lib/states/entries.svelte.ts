@@ -3,49 +3,49 @@ import type IEntries from "$lib/model/IEntries";
 import type { ILegacyEntry } from "$lib/model/IEntry";
 import type IEntry from "$lib/model/IEntry";
 import { formatDate, iterateDates, iterateMonths } from "$lib/utilities/dateUtilities";
-import { get, writable } from "svelte/store";
 
-function createEntriesStore() {
+function createEntriesManager() {
 
-    const { subscribe, set, update } = writable({} as IEntries);
+    // State for storing entries
+    // This is a dictionary/object of entries, keyed by date in "YYYY-MM-DD" format
+    let entries: IEntries = $state({});
 
-    const store = {
-        subscribe,
-        getEntry: async function (date: Date): Promise<IEntry | null> {
+    return {
+        get entries() { return entries; },
+
+        // Fetch entry for a specific date
+        fetchEntry: async function (date: Date): Promise<IEntry | null> {
             // Convert date to "YYYY-MM-DD" format in local timezone
             const dateStr = formatDate(date);
 
             // Try fetch entry from the backend if not found in the store
-            let entries = get(this);
             if (!(dateStr in entries)) {
                 const newEntries = await fetchEntry(date);
 
                 // Update values into store
                 for (const [key, value] of Object.entries(newEntries)) {
-                    update((entries) => {
-                        return { ...entries, [key]: value };
-                    });
+                    entries[key] = value;
                 }
 
             };
 
             // Re-get value from store then try to find entry again
-            entries = get(this);
             if (dateStr in entries) {
                 return entries[dateStr];
             }
             return null;
         },
-        getEntries: async function (from: Date, to: Date): Promise<IEntries> {
 
+        // Fetch multiple entries for a range of dates
+        fetchEntries: async function (from: Date, to: Date): Promise<IEntries> {
+            
             // From the given date range, try to fetch the smallest range of entries
             // that is not yet cached in the store
             let datesToFetch = iterateDates(from, to);
-            let storeEntries = get(this);
             const firstIndexWithoutCache = datesToFetch
-                .findIndex(x => !(formatDate(x) in storeEntries));
+                .findIndex(x => !(formatDate(x) in entries));
             const lastIndexWithoutCache = datesToFetch
-                .findLastIndex(x => !(formatDate(x) in storeEntries));
+                .findLastIndex(x => !(formatDate(x) in entries));
             if (firstIndexWithoutCache != -1 && lastIndexWithoutCache != -1) {
                 const firstDateToFetch = datesToFetch[firstIndexWithoutCache];
                 const lastDateToFetch = datesToFetch[lastIndexWithoutCache];
@@ -53,29 +53,25 @@ function createEntriesStore() {
 
                 // Update values into store
                 for (const [key, value] of Object.entries(newEntries)) {
-                    update((entries) => {
-                        return { ...entries, [key]: value };
-                    });
+                    entries[key] = value;
                 }
             }
 
             // Return values from the updated store
-            storeEntries = get(this);
             let returnEntries = {} as IEntries;
             for (let date of iterateDates(from, to).map(formatDate)) {
-                returnEntries[date] = storeEntries[date];
+                returnEntries[date] = entries[date];
             }
 
             return returnEntries;
         }
     };
-
-    return store;
 }
 
-export const entries = createEntriesStore();
+// Export a singleton instance for use in components
+export const entriesManager = createEntriesManager();
 
-// Helper functions for operations on the entries store
+// Helper functions for operations on the entries manager
 
 async function fetchEntry(date: Date): Promise<IEntries> {
 

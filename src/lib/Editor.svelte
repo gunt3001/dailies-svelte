@@ -1,47 +1,49 @@
 <script lang="ts">
-    import { entries } from "$lib/stores/entries";
+    import { entriesManager } from "$lib/states/entries.svelte";
     import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import { ENTRY_CONTENT_WARN_LENGTH } from "./Constants";
     import EditorForm from "./EditorForm.svelte";
     import type IEntry from "./model/IEntry";
-    import { mainEditorHasUnsavedChanges, selectedDate } from "./stores/generic";
+    import { appState } from "./states/global.svelte";
     import { toLongDate } from "./utilities/dateFormatter";
     import { beforeNavigate } from "$app/navigation";
     import { browserConfirm } from "./utilities/confirm";
-
-    // Initialize variables
-    let modified: boolean;
+    import { browser } from "$app/environment";
 
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
-        const entry = await entries.getEntry(selectedDate);
+        // Only fetch entry from the browser, not during SSR
+        if (!browser) {
+            return null;
+        }
+        const entry = await entriesManager.fetchEntry(selectedDate);
         return entry;
     }
 
+    // Stop user from navigating away if there are unsaved changes
     beforeNavigate(({ cancel }) => {
-        if (modified && !browserConfirm()) {
+        if (appState.mainEditorHasUnsavedChanges && !browserConfirm()) {
             cancel();
         }
     });
 
-    $: $mainEditorHasUnsavedChanges = modified;
 </script>
 
 <div>
-    {#await fetchEntry($selectedDate)}
-        <h1 class="my-4 font-semibold text-2xl">{toLongDate($selectedDate)}</h1>
+    {#await fetchEntry(appState.selectedDate)}
+        <h1 class="my-4 font-semibold text-2xl">{toLongDate(appState.selectedDate)}</h1>
         <p>Loading entry...</p>
     {:then entry}
         <div class="flex flex-row gap items-baseline">
             <h1 class="my-4 mr-4 font-semibold text-2xl">
-                {toLongDate($selectedDate)}
+                {toLongDate(appState.selectedDate)}
             </h1>
             {#if entry === null}
                 <Badge icon={faPenToSquare} colorStyle={ColorStyles.Gray}
                     >New entry</Badge
                 >
             {/if}
-            {#if modified}
+            {#if appState.mainEditorHasUnsavedChanges}
                 <Badge
                     icon={faPen}
                     roundStyle={false}
@@ -50,12 +52,11 @@
             {/if}
         </div>
         <EditorForm
-            bind:modified
             charCountWarning={ENTRY_CONTENT_WARN_LENGTH}
             {entry}
         />
     {:catch}
-        <h1 class="my-4 font-semibold text-2xl">{toLongDate($selectedDate)}</h1>
+        <h1 class="my-4 font-semibold text-2xl">{toLongDate(appState.selectedDate)}</h1>
         <p>Failed to load entry.</p>
     {/await}
 </div>

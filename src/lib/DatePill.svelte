@@ -1,13 +1,18 @@
 <script lang="ts">
-    export let date: Date;
-    export let isActive: boolean = false;
-    export let isIncomplete: boolean = true;
+    interface Props {
+        date: Date;
+        isActive?: boolean;
+        isIncomplete?: boolean;
+        onClick: () => void;
+    }
 
-    $: hoverClasses = isActive ? "" : "hover:bg-purple-200 hover:dark:bg-purple-500/20";
+    let { date, isActive = false, isIncomplete = true, onClick }: Props = $props();
+
+    let hoverClasses = $derived(isActive ? "" : "hover:bg-purple-200 hover:dark:bg-purple-500/20");
 </script>
 
 <button
-    on:click
+    onclick={() => { onClick() }}
     type="button"
     class="flex flex-col shrink-0 mb-3 w-14 h-20 font-semibold rounded-lg justify-center items-center border dark:border-gray-800 dark:bg-gray-800 {hoverClasses}"
     class:dark:bg-purple-800={isActive}
