@@ -9,8 +9,13 @@
     import { toLongDate } from "./utilities/dateFormatter";
     import { beforeNavigate } from "$app/navigation";
     import { browserConfirm } from "./utilities/confirm";
+    import { browser } from "$app/environment";
 
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
+        // Only fetch entry from the browser, not during SSR
+        if (!browser) {
+            return null;
+        }
         const entry = await entries.getEntry(selectedDate);
         return entry;
     }
