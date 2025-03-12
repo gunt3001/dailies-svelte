@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { entries } from "$lib/stores/entries";
     import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
@@ -11,7 +13,7 @@
     import { browserConfirm } from "./utilities/confirm";
 
     // Initialize variables
-    let modified: boolean;
+    let modified: boolean = $state();
 
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
         const entry = await entries.getEntry(selectedDate);
@@ -24,7 +26,9 @@
         }
     });
 
-    $: $mainEditorHasUnsavedChanges = modified;
+    run(() => {
+        $mainEditorHasUnsavedChanges = modified;
+    });
 </script>
 
 <div>

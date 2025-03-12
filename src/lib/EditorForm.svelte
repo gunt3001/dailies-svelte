@@ -1,31 +1,28 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import type IEntry from "./model/IEntry";
 
-    // Props
-    export let charCountWarning: number;
-    export let entry: IEntry | null;
-    export let modified = false;
+    
+    interface Props {
+        // Props
+        charCountWarning: number;
+        entry: IEntry | null;
+        modified?: boolean;
+    }
+
+    let { charCountWarning, entry, modified = $bindable(false) }: Props = $props();
 
     // Form variables
-    let content = entry?.content ?? "";
-    let keyEvent = entry?.keyEvent ?? "";
-    let mood = entry?.mood ?? "";
-    let remarks = entry?.remarks ?? "";
-    let charCount = 0;
-    let series: string | null = null;
+    let content = $state(entry?.content ?? "");
+    let keyEvent = $state(entry?.keyEvent ?? "");
+    let mood = $state(entry?.mood ?? "");
+    let remarks = $state(entry?.remarks ?? "");
+    let charCount = $state(0);
+    let series: string | null = $state(null);
 
-    $: charCount = content.length - (series ? series.length + 3 : 0);
-    $: series = getSeries(content);
-    $: modified =
-        (entry !== null &&
-            (entry.content != content ||
-                entry.keyEvent != keyEvent ||
-                entry.mood != mood ||
-                entry.remarks != remarks)) ||
-        (entry === null &&
-            (content != "" || keyEvent != "" || mood != "" || remarks != ""));
 
     function getSeries(content: string): string | null {
         // If the content is prefixed like '[some series name] content',
@@ -37,6 +34,22 @@
         }
         return null;
     }
+    run(() => {
+        series = getSeries(content);
+    });
+    run(() => {
+        charCount = content.length - (series ? series.length + 3 : 0);
+    });
+    run(() => {
+        modified =
+            (entry !== null &&
+                (entry.content != content ||
+                    entry.keyEvent != keyEvent ||
+                    entry.mood != mood ||
+                    entry.remarks != remarks)) ||
+            (entry === null &&
+                (content != "" || keyEvent != "" || mood != "" || remarks != ""));
+    });
 </script>
 
 <textarea
@@ -45,7 +58,7 @@
     class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
     placeholder="Say what's going on..."
     bind:value={content}
-/>
+></textarea>
 <div class="flex flex-row-reverse justify-between mt-2">
     <p
         class="font-semibold text-gray-500 justify-self-end"
@@ -91,7 +104,7 @@
     rows="4"
     class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l"
     bind:value={remarks}
-/>
+></textarea>
 <div class="text-right">
     <button
         type="button"

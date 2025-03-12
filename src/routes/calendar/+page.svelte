@@ -3,8 +3,8 @@
     import CalendarHeader from "$lib/CalendarHeader.svelte";
     import { selectedDate } from "$lib/stores/generic";
 
-    let calendarMonth = $selectedDate.getMonth();
-    let calendarYear = $selectedDate.getFullYear();
+    let calendarMonth = $state($selectedDate.getMonth());
+    let calendarYear = $state($selectedDate.getFullYear());
 
 </script>
 

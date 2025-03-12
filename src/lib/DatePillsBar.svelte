@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import DatePill from "./DatePill.svelte";
     import { entries } from "./stores/entries";
     import {
@@ -8,14 +10,12 @@
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
 
-    let containerWidth: number | null = null;
+    let containerWidth: number | null = $state(null);
     const pillWidth = 56;
     const gapWidth = 12;
-    let pillsToCreate = 0;
+    let pillsToCreate = $state(0);
     let today = new Date();
 
-    $: pillsToCreate = calculateNumPills(containerWidth);
-    $: dates = getDatesToDisplay(pillsToCreate);
 
     function calculateNumPills(containerWidth: number | null): number {
         if (containerWidth) {
@@ -53,6 +53,10 @@
             await entries.getEntries(dates[dates.length - 1], dates[0]);
         }
     }
+    run(() => {
+        pillsToCreate = calculateNumPills(containerWidth);
+    });
+    let dates = $derived(getDatesToDisplay(pillsToCreate));
 </script>
 
 <div

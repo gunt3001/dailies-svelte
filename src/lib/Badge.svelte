@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export enum ColorStyles {
         Gray = "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400",
         Blue = "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
@@ -8,9 +8,19 @@
     import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
     import Fa from "svelte-fa";
 
-    export let icon: IconDefinition;
-    export let colorStyle: ColorStyles = ColorStyles.Gray;
-    export let roundStyle: boolean = false;
+    interface Props {
+        icon: IconDefinition;
+        colorStyle?: ColorStyles;
+        roundStyle?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        icon,
+        colorStyle = ColorStyles.Gray,
+        roundStyle = false,
+        children
+    }: Props = $props();
 </script>
 
 <span
@@ -19,5 +29,5 @@
     }
 >
     <Fa {icon} class="mr-1.5" />
-    <slot />
+    {@render children?.()}
 </span>
