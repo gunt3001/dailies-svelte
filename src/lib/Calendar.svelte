@@ -100,4 +100,4 @@ https://svelte.dev/e/node_invalid_placement -->
     </tbody>
 </table>
 
-<EditorModal {editorDate} on:close={() => (editorDate = null)} />
+<EditorModal {editorDate} onModalDismissed={() => (editorDate = null)} />
