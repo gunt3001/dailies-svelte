@@ -2,11 +2,26 @@
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
     import { entries } from "./stores/entries";
-    import { browser } from "$app/environment";
 
-    export let month: number;
-    export let year: number;
+    interface Props {
+        month: number;
+        year: number;
+    }
 
+    // Props
+    let { month, year }: Props = $props();
+
+    // 2D-array to store dates to be displayed in the calendar
+    let calendarCells: Date[][] = $derived(buildCalendarCells(month, year));
+
+    // Fetch entries when the calendar is updated
+    $effect(() => {
+        prefetchEntries(calendarCells);
+    });
+
+    // Calculate the dates to be displayed in the calendar
+    // based on the month and year
+    // Returns a 2D array of dates
     function buildCalendarCells(month: number, year: number): Date[][] {
         // First get day of month
         let dayToDisplay = new Date(year, month, 1);
@@ -30,23 +45,15 @@
         return daysToDisplay;
     }
 
-    let calendarCells: Date[][] = [];
-    $: calendarCells = buildCalendarCells(month, year);
-
-    // Handle fetching entries as calendar is loaded
-    async function updateCalendarCells(calendarCells: Date[][]) {
+    // Prefetch entires as cells are updated
+    async function prefetchEntries(calendarCells: Date[][]) {
         await entries.getEntries(
             calendarCells[0][0],
             calendarCells[calendarCells.length - 1][6],
         );
     }
-
-    // Use reactive statement to fetch, but avoid fetching when
-    // on server-side
-    $: if (browser) {
-        updateCalendarCells(calendarCells);
-    }
-    let editorDate: string | null = null;
+    
+    let editorDate: string | null = $state(null);
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
