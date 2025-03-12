@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { afterUpdate, onMount } from "svelte";
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
     import { entries } from "./stores/entries";
