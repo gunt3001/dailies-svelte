@@ -11,8 +11,8 @@ export const ENTRY_CONTENT_WARN_LENGTH = 180;
 export const NEARBY_ENTRIES_TO_PREFETCH = 0;
 
 // Whether to use the legacy API mode (compatible with classic Dailies app)
-export const LEGACY_API_MODE = false;
+export const LEGACY_API_MODE = true;
 
 // URL for the API endpoint when legacy mode is active
-export const LEGACY_API_ENDPOINT_URL = "";
+export const LEGACY_API_ENDPOINT_URL = "http://aoi-nas:34275";
 

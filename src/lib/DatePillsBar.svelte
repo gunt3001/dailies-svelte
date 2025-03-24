@@ -1,11 +1,15 @@
 <script lang="ts">
     import DatePill from "./DatePill.svelte";
-    import { entriesManager } from "./states/entries.svelte";
-    import { appState } from "./states/global.svelte";
     import { browserConfirm } from "./utilities/confirm";
     import { formatDate, isSameDate } from "./utilities/dateUtilities";
     import MorePill from "./MorePill.svelte";
     import { goto } from "$app/navigation";
+    import { getEntriesManagerContext } from "./states/entries.svelte";
+    import { getAppStateContext } from "./states/global.svelte";
+    
+    // Context 
+    const entriesManager = getEntriesManagerContext();
+    const appState = getAppStateContext();
 
     // Define pill width and gap width
     const pillWidth = 56;
@@ -64,7 +68,7 @@
                 <DatePill
                     date={x}
                     isActive={isSameDate(x, appState.selectedDate)}
-                    isIncomplete={entriesManager.entries[formatDate(x)] === null}
+                    isIncomplete={entriesManager.cachedEntries[formatDate(x)] === null}
                     onClick={() => onNavigate(x)}
                 />
             {/if}

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { createAndSetEntriesManagerContext } from "$lib/states/entries.svelte";
+    import { createAndSetAppStateContext } from "$lib/states/global.svelte";
     import "../app.css";
     import Header from "../lib/Header.svelte";
     interface Props {
@@ -6,6 +8,10 @@
     }
 
     let { children }: Props = $props();
+
+    // Context setup
+    createAndSetEntriesManagerContext();
+    createAndSetAppStateContext();
 </script>
 
 <svelte:head>

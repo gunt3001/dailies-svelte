@@ -1,22 +1,26 @@
 <script lang="ts">
-    import { entriesManager } from "$lib/states/entries.svelte";
     import { faPen, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import { ENTRY_CONTENT_WARN_LENGTH } from "./Constants";
     import EditorForm from "./EditorForm.svelte";
     import type IEntry from "./model/IEntry";
-    import { appState } from "./states/global.svelte";
     import { toLongDate } from "./utilities/dateFormatter";
     import { beforeNavigate } from "$app/navigation";
     import { browserConfirm } from "./utilities/confirm";
     import { browser } from "$app/environment";
+    import { getEntriesManagerContext } from "./states/entries.svelte";
+    import { getAppStateContext } from "./states/global.svelte";
+
+    // Context 
+    const entriesManager = getEntriesManagerContext();
+    const appState = getAppStateContext();
 
     async function fetchEntry(selectedDate: Date): Promise<IEntry | null> {
         // Only fetch entry from the browser, not during SSR
         if (!browser) {
             return null;
         }
-        const entry = await entriesManager.fetchEntry(selectedDate);
+        const entry = await entriesManager.getEntry(selectedDate);
         return entry;
     }
 

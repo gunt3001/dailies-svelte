@@ -1,12 +1,15 @@
 <script lang="ts">
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
-    import { entriesManager } from "./states/entries.svelte";
+    import { getEntriesManagerContext } from "./states/entries.svelte";
 
     interface Props {
         month: number;
         year: number;
     }
+
+    // Context
+    const entriesManager = getEntriesManagerContext();
 
     // Props
     let { month, year }: Props = $props();
@@ -47,7 +50,7 @@
 
     // Prefetch entires as cells are updated
     async function prefetchEntries(calendarCells: Date[][]) {
-        await entriesManager.fetchEntries(
+        await entriesManager.getEntries(
             calendarCells[0][0],
             calendarCells[calendarCells.length - 1][6],
         );

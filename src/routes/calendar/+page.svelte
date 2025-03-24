@@ -1,7 +1,10 @@
 <script lang="ts">
     import Calendar from "$lib/Calendar.svelte";
     import CalendarHeader from "$lib/CalendarHeader.svelte";
-    import { appState } from "$lib/states/global.svelte";
+    import { getAppStateContext } from "$lib/states/global.svelte";
+
+    // Context
+    const appState = getAppStateContext();
 
     // Default calendar month to current app-wide date
     // Note tht if the month is changed, it is not reflected back to the app-wide date

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatDate } from "./utilities/dateUtilities";
-    import { entriesManager } from "./states/entries.svelte";
     import type IEntry from "./model/IEntry";
+    import { getEntriesManagerContext } from "./states/entries.svelte";
 
     interface Props {
         day: Date; // The date for this cell
@@ -10,11 +10,14 @@
 
     let { day, isCurrentMonth }: Props = $props();
 
+    // Context
+    const entriesManager = getEntriesManagerContext();
+
     // State variables
 
     // Current entry
     // null means empty entry. undefined means loading.
-    let activeEntry: IEntry | null | undefined = $derived(entriesManager.entries[formatDate(day)]);
+    let activeEntry: IEntry | null | undefined = $derived(entriesManager.cachedEntries[formatDate(day)]);
 
     // Entry details
     let header = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.keyEvent ?? "");

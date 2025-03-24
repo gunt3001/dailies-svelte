@@ -2,8 +2,10 @@
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import type IEntry from "./model/IEntry";
-    import { appState } from './states/global.svelte';
+    import { getAppStateContext } from "./states/global.svelte";
 
+    // Context
+    const appState = getAppStateContext();
     
     interface Props {
         // Props
