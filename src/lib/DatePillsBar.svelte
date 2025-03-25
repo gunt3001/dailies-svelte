@@ -36,9 +36,17 @@
 
     function onNavigate(newDate: Date) {
         // If there are unsaved changes in the editor, ask for confirmation
-        if (!appState.mainEditorHasUnsavedChanges || browserConfirm()) {
-            appState.selectedDate = newDate;
+        if (appState.mainEditorHasUnsavedChanges) {
+            if (browserConfirm()) {
+                // Reset unsaved changes flag if user decides to navigate away
+                appState.mainEditorHasUnsavedChanges = false;
+            }
+            else {
+                // Cancel navigation if user decides to stay
+                return;
+            }
         }
+        appState.selectedDate = newDate;
     }
 
     // Navigate to the date on the calendar view

@@ -26,8 +26,15 @@
 
     // Stop user from navigating away if there are unsaved changes
     beforeNavigate(({ cancel }) => {
-        if (appState.mainEditorHasUnsavedChanges && !browserConfirm()) {
-            cancel();
+        if (appState.mainEditorHasUnsavedChanges) {
+            if (!browserConfirm()) {
+                // Cancel navigation if user decides to stay
+                cancel();
+            }
+            else {
+                // Reset unsaved changes flag if user decides to navigate away
+                appState.mainEditorHasUnsavedChanges = false;
+            }
         }
     });
 
