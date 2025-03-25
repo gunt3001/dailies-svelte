@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run npm run dev",
+            "name": "Run pnpm run dev",
             "cwd": "${workspaceFolder}",
             "skipFiles": [
                 "<node_internals>/**"
@@ -17,7 +17,21 @@
                 "run",
                 "dev"
             ],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "serverReadyAction": {
+                "action": "startDebugging",
+                "pattern": "Local:\\s+http://localhost:([0-9]+)",
+                "name": "Launch Firefox DE",
+                "killOnServerStop": true
+            } 
+        },
+        {
+            "name": "Launch Firefox DE",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": false,
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
