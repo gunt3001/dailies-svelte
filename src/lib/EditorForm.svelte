@@ -74,8 +74,8 @@
         >
     {/if}
 </div>
-<div class="grid grid-cols-2 gap-4">
-    <div class="col">
+<div class="grid grid-cols-3 gap-4">
+    <div class="col-span-3 xl:col-span-2">
         <h2 class="my-4 font-semibold text-xl">Key Event</h2>
         <input
             type="text"
@@ -84,7 +84,7 @@
             oninput={() => onFormFieldUpdated()}
         />
     </div>
-    <div class="col">
+    <div class="col-span-3 xl:col-span-1">
         <h2 class="my-4 font-semibold text-xl">Mood</h2>
         <input
             type="text"
