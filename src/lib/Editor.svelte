@@ -63,6 +63,7 @@
             {/if}
         </div>
         <EditorForm
+            date={appState.selectedDate}
             charCountWarning={ENTRY_CONTENT_WARN_LENGTH}
             {entry}
         />
