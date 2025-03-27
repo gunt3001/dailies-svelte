@@ -1,3 +1,5 @@
+import { NEARBY_ENTRIES_TO_PREFETCH } from "$lib/Constants";
+import type IEntries from "$lib/model/IEntries";
 import type IEntry from "$lib/model/IEntry";
 import type { IServerEntriesManager } from "./IServerEntriesManager";
 
@@ -14,11 +16,11 @@ export class SqliteServerEntriesManager implements IServerEntriesManager {
     }
 
     async fetchEntry(date: Date): Promise<IEntry | null> {
-        // TODO: Implement the method to fetch an entry from the Sqlite database
+        // TODO: Implement the method to fetch entries from the Sqlite database
         throw new Error("Method not implemented.");
     }
 
-    async fetchEntries(startDate: Date, endDate: Date): Promise<IEntry[]> {
+    async fetchEntries(startDate: Date, endDate: Date): Promise<IEntries> {
         // TODO: Implement the method to fetch entries from the Sqlite database
         throw new Error("Method not implemented.");
     }

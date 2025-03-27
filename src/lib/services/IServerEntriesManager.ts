@@ -1,4 +1,5 @@
 import { LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, SQLITE_DB_CONNECTION } from "$lib/Constants";
+import type IEntries from "$lib/model/IEntries";
 import type IEntry from "$lib/model/IEntry";
 import { LegacyAPIServerEntriesManager } from "./LegacyAPIServerEntriesManager";
 import { SqliteServerEntriesManager } from "./SqliteServerEntriesManager";
@@ -23,9 +24,9 @@ export interface IServerEntriesManager {
      * Retrieves entries for the specified date range.
      * @param startDate - The start date of the range (inclusive).
      * @param endDate - The end date of the range (inclusive).
-     * @returns A promise that resolves to an array of entries.
+     * @returns A promise that resolves to an object containing entries for the specified date range.
      */
-    fetchEntries(startDate: Date, endDate: Date): Promise<IEntry[]>;
+    fetchEntries(startDate: Date, endDate: Date): Promise<IEntries>;
 
     /**
      * Creates or update an entry on the server.

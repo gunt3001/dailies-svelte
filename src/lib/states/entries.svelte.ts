@@ -1,6 +1,4 @@
-import { API_ENDPOINT_URL, LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, NEARBY_ENTRIES_TO_PREFETCH } from "$lib/Constants";
 import type IEntries from "$lib/model/IEntries";
-import type { ILegacyEntry } from "$lib/model/IEntry";
 import type IEntry from "$lib/model/IEntry";
 import { formatDate, iterateDates, iterateMonths } from "$lib/utilities/dateUtilities";
 import { getContext, setContext } from "svelte";
@@ -82,7 +80,7 @@ export class ClientEntriesManager {
             const lastDateToFetch = datesToFetch[lastIndexWithoutCache];
             const newEntries = await this.fetchEntries(firstDateToFetch, lastDateToFetch);
 
-            // Update values into store
+            // Update values into state
             for (const [key, value] of Object.entries(newEntries)) {
                 this.entries[key] = value;
             }
@@ -93,44 +91,30 @@ export class ClientEntriesManager {
         for (let date of iterateDates(from, to).map(formatDate)) {
             returnEntries[date] = this.entries[date];
         }
-
         return returnEntries;
     }
 
     // Private helper functions
 
     /**
-     * Fetches entries for a given date. Depending on the API mode, it either fetches
-     * entries for the entire month (legacy mode) or fetches entries for a range of dates
-     * around the given date (modern mode).
+     * Fetches an entry for a given date from the server.
      *
      * @param date - The date for which to fetch the entry.
      * @returns A promise that resolves to an IEntries object containing a single entry for the given date.
      */
     private async fetchEntry(date: Date): Promise<IEntries> {
-        // TODO: Update this to use one of the IServerEntriesManager implementations.
-        // instead of fetching directly from the browser.
-        if (LEGACY_API_MODE) {
-            // In legacy API mode, fetching a single entry already fetches entries
-            // for the entire month
-            return this.fetchEntries(date, date);
+        const response = await fetch("/api/entry/" + formatDate(date));
+        if (!response.ok) {
+            throw new Error("Failed to fetch entry");
         }
-        else {
-            // Modern API should support pulling entries for specific dates
-            // For user experience, let's pre-fetch entries close to the date requested too
-            const startDate = new Date(date.getFullYear(),
-                date.getMonth(), date.getDate() - NEARBY_ENTRIES_TO_PREFETCH);
-            const endDate = new Date(date.getFullYear(),
-                date.getMonth(), date.getDate() + NEARBY_ENTRIES_TO_PREFETCH);
-            return this.fetchEntries(startDate, endDate);
-        }
+        const entry: IEntry = await response.json();
+        return {
+            [formatDate(date)]: entry,
+        };
     }
 
     /**
      * Fetches entries from the backend within the specified date range.
-     * 
-     * Depending on the API mode, it either fetches entries month-by-month (legacy mode)
-     * or for the entire date range (modern mode).
      * 
      * @param from - The start date of the range.
      * @param to - The end date of the range.
@@ -140,76 +124,13 @@ export class ClientEntriesManager {
      * the value is set to null.
      */
     private async fetchEntries(from: Date, to: Date): Promise<IEntries> {
-        // TODO: Update this to use one of the IServerEntriesManager implementations.
-        // instead of fetching directly from the browser.
-
-        // Fetch multiple entries from the backend
-        const newEntries: IEntries = {};
-
-        if (LEGACY_API_MODE) {
-            // Legacy API only support pulling entries on a month-by-month basis
-            // Fetch entries for all months in the range
-
-            // Create an array of year and month pairs
-            let monthsToFetch = iterateMonths(from, to);
-
-            // Fetch entries for each month
-            for (const { year, month } of monthsToFetch) {
-                const response = await fetch(`${LEGACY_API_ENDPOINT_URL}/Entries?year=${year}&month=${month}`);
-                const entries: ILegacyEntry[] = await response.json();
-
-                // Loop through every day of the requested month
-                // If the entry is not found, set it to null
-                // Otherwise, convert the entry to the new format
-                let date = new Date(year, month - 1, 1);
-                while (date.getMonth() === month - 1) {
-                    const dateStr = formatDate(date);
-                    const existingEntry = entries.find((entry) => entry.date.startsWith(dateStr));
-                    newEntries[dateStr] = existingEntry ? this.convertToNewFormat(existingEntry) : null;
-                    date.setDate(date.getDate() + 1);
-                }
-            }
+        const response = await fetch(`/api/entries?startDate=${formatDate(from)}&endDate=${formatDate(to)}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch entries");
         }
-        else {
-            // Modern API should support pulling entries for specific dates
-            const startDateStr = formatDate(from);
-            const endDateStr = formatDate(to);
-
-            const response =
-                await fetch(`${API_ENDPOINT_URL}/entries?from=${startDateStr}&to=${endDateStr}`);
-            const entries: IEntry[] = await response.json();
-            for (const entry of entries) {
-                newEntries[entry.date] = entry;
-            }
-
-            // Loop through missing entries returned from API
-            // Fill them with nulls to signify entries yet to be created
-            for (let date of iterateDates(from, to)) {
-                let formattedDate = formatDate(date);
-                if (!(formattedDate in newEntries)) {
-                    newEntries[formattedDate] = null;
-                }
-            }
-        }
-
-        return newEntries;
+        return await response.json();
     }
 
-    /**
-     * Converts a legacy entry to the new format.
-     *
-     * @param entry - The legacy entry to be converted.
-     * @returns The entry in the new format.
-     */
-    private convertToNewFormat(entry: ILegacyEntry): IEntry {
-        return {
-            date: entry.date.substring(0, 10),
-            content: entry.content,
-            keyEvent: entry.keyword,
-            mood: entry.mood,
-            remarks: entry.remarks,
-        };
-    }
 
 }
 
