@@ -1,3 +1,4 @@
+import { NEARBY_ENTRIES_TO_PREFETCH } from "$lib/Constants";
 import type IEntries from "$lib/model/IEntries";
 import type IEntry from "$lib/model/IEntry";
 import { formatDate, iterateDates, iterateMonths } from "$lib/utilities/dateUtilities";
@@ -38,7 +39,12 @@ export class ClientEntriesManager {
 
         // Try fetch entry from the backend if not found in the store
         if (!(dateStr in this.entries)) {
-            const newEntries = await this.fetchEntry(date);
+            // For user experience, let's pre-fetch entries close to the date requested too
+            const startDate = new Date(date.getFullYear(),
+                date.getMonth(), date.getDate() - NEARBY_ENTRIES_TO_PREFETCH);
+            const endDate = new Date(date.getFullYear(),
+                date.getMonth(), date.getDate() + NEARBY_ENTRIES_TO_PREFETCH);
+            const newEntries = await this.fetchEntries(startDate, endDate);
 
             // Update values into store
             for (const [key, value] of Object.entries(newEntries)) {
