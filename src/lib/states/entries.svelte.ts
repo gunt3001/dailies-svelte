@@ -108,6 +108,8 @@ export class ClientEntriesManager {
      * @returns A promise that resolves to an IEntries object containing a single entry for the given date.
      */
     private async fetchEntry(date: Date): Promise<IEntries> {
+        // TODO: Update this to use one of the IServerEntriesManager implementations.
+        // instead of fetching directly from the browser.
         if (LEGACY_API_MODE) {
             // In legacy API mode, fetching a single entry already fetches entries
             // for the entire month
@@ -138,6 +140,9 @@ export class ClientEntriesManager {
      * the value is set to null.
      */
     private async fetchEntries(from: Date, to: Date): Promise<IEntries> {
+        // TODO: Update this to use one of the IServerEntriesManager implementations.
+        // instead of fetching directly from the browser.
+
         // Fetch multiple entries from the backend
         const newEntries: IEntries = {};
 

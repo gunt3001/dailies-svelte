@@ -5,9 +5,11 @@
     import { getAppStateContext } from "./states/global.svelte";
     import { formatDate } from "./utilities/dateUtilities";
     import { enhance } from "$app/forms";
+    import { getEntriesManagerContext } from "./states/entries.svelte";
 
     // Context
     const appState = getAppStateContext();
+    const entriesManager = getEntriesManagerContext();
 
     interface Props {
         // Number of characters before the warning is shown
@@ -76,8 +78,10 @@
     use:enhance={() => {
         isSubmitting = true;
         return async ({ update }) => {
-            await update();
             isSubmitting = false;
+            // Invalidate the new entry to re-fetch from server
+            delete entriesManager.cachedEntries[formatDate(date)];
+            await update();
         };
     }}
 >

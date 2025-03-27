@@ -16,3 +16,6 @@ export const LEGACY_API_MODE = true;
 // URL for the API endpoint when legacy mode is active
 export const LEGACY_API_ENDPOINT_URL = "http://aoi-nas:34275";
 
+// Connection string for SQLite database
+export const SQLITE_DB_CONNECTION = "sqlite://:memory:";
+
