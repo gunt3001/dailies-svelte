@@ -6,13 +6,13 @@ import { formatDate, iterateDates, iterateMonths } from "$lib/utilities/dateUtil
 import { getContext, setContext } from "svelte";
 
 /**
- * Manages entries by providing methods to fetch and store entries.
+ * Manages client-side entries state by providing methods to fetch and store entries.
  * 
  * The entries are stored in a dictionary/object, keyed by date in "YYYY-MM-DD" format.
  * If an entry is not found in the store, it will be fetched from the backend.
  * 
  */
-export class EntriesManager {
+export class ClientEntriesManager {
 
     // State for storing entries
     // This is a dictionary/object of entries, keyed by date in "YYYY-MM-DD" format
@@ -211,7 +211,7 @@ export class EntriesManager {
 // Convenience functions for setting and getting the EntriesManager context
 const ENTRIES_MANAGER_CONTEXT_KEY = Symbol("EntriesManager");
 export function createAndSetEntriesManagerContext() {
-    return setContext(ENTRIES_MANAGER_CONTEXT_KEY, new EntriesManager());
+    return setContext(ENTRIES_MANAGER_CONTEXT_KEY, new ClientEntriesManager());
 }
 export function getEntriesManagerContext() {
     return getContext<ReturnType<typeof createAndSetEntriesManagerContext>>(ENTRIES_MANAGER_CONTEXT_KEY);
