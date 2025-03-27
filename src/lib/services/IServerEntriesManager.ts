@@ -1,4 +1,11 @@
+import { LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, SQLITE_DB_CONNECTION } from "$lib/Constants";
 import type IEntry from "$lib/model/IEntry";
+import { LegacyAPIServerEntriesManager } from "./LegacyAPIServerEntriesManager";
+import { SqliteServerEntriesManager } from "./SqliteServerEntriesManager";
+
+export const ServerEntriesManager: IServerEntriesManager = LEGACY_API_MODE
+    ? new LegacyAPIServerEntriesManager(LEGACY_API_ENDPOINT_URL)
+    : new SqliteServerEntriesManager(SQLITE_DB_CONNECTION);
 
 /**
  * Manages entries on the server.

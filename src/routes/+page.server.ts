@@ -2,18 +2,11 @@ import { parseDate } from '$lib/utilities/dateUtilities';
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad, RequestEvent } from './$types';
 import type IEntry from '$lib/model/IEntry';
-import type { IServerEntriesManager } from '$lib/services/IServerEntriesManager';
-import { LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, SQLITE_DB_CONNECTION } from '$lib/Constants';
-import { LegacyAPIServerEntriesManager } from '$lib/services/LegacyAPIServerEntriesManager';
-import { SqliteServerEntriesManager } from '$lib/services/SqliteServerEntriesManager';
+import { ServerEntriesManager } from '$lib/services/IServerEntriesManager';
 
 export const load = (async () => {
     return {};
 }) satisfies PageServerLoad;
-
-const EntriesManager: IServerEntriesManager = LEGACY_API_MODE
-    ? new LegacyAPIServerEntriesManager(LEGACY_API_ENDPOINT_URL)
-    : new SqliteServerEntriesManager(SQLITE_DB_CONNECTION);
 
 // Actions for form submissions
 export const actions = {
@@ -30,7 +23,7 @@ export const actions = {
             remarks: data.get('remarks') as string
         };
 
-        let newEntry = await EntriesManager.createOrUpdateEntry(entry);
+        let newEntry = await ServerEntriesManager.createOrUpdateEntry(entry);
 
         if (!newEntry) {
             // Handle error case
