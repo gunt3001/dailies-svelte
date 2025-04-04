@@ -103,23 +103,6 @@ export class ClientEntriesManager {
     // Private helper functions
 
     /**
-     * Fetches an entry for a given date from the server.
-     *
-     * @param date - The date for which to fetch the entry.
-     * @returns A promise that resolves to an IEntries object containing a single entry for the given date.
-     */
-    private async fetchEntry(date: Date): Promise<IEntries> {
-        const response = await fetch("/api/entry/" + formatDate(date));
-        if (!response.ok) {
-            throw new Error("Failed to fetch entry");
-        }
-        const entry: IEntry = await response.json();
-        return {
-            [formatDate(date)]: entry,
-        };
-    }
-
-    /**
      * Fetches entries from the backend within the specified date range.
      * 
      * @param from - The start date of the range.
