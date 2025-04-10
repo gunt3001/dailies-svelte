@@ -14,7 +14,7 @@ export const LEGACY_API_MODE = process.env.LEGACY_API_MODE !== undefined
   : true;
 
 // URL for the API endpoint when legacy mode is active
-export const LEGACY_API_ENDPOINT_URL = process.env.LEGACY_API_ENDPOINT_URL || "http://aoi-nas:34275";
+export const LEGACY_API_ENDPOINT_URL = process.env.LEGACY_API_ENDPOINT_URL || "http://example-legacy-api";
 
 // Connection string for SQLite database
 export const SQLITE_DB_CONNECTION = process.env.SQLITE_DB_CONNECTION || "sqlite://:memory:"; 
