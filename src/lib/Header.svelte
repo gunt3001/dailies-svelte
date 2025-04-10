@@ -1,6 +1,7 @@
 <script>
 
     import { page } from "$app/state";
+    import { SITE_NAME } from "$lib/Constants";
 
     let currentPath = $derived(page.url.pathname);
 
@@ -18,7 +19,7 @@
                 src="profile.png"
                 alt="A journaling notebook logo"
             />
-            <span class="ml-3 text-xl">Dailies</span>
+            <span class="ml-3 text-xl">{SITE_NAME}</span>
         </a>
         <nav
             class="md:ml-4 md:pl-4 flex flex-wrap gap-2 items-center text-base justify-center text-white font-semibold"

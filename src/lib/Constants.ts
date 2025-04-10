@@ -1,5 +1,8 @@
 // Configuration constants
 
+// The display name of the website
+export const SITE_NAME = "Dailies";
+
 // URL for the API endpoint
 export const API_ENDPOINT_URL = "./api";
 

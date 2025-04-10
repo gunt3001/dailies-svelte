@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createAndSetEntriesManagerContext } from "$lib/states/entries.svelte";
     import { createAndSetAppStateContext } from "$lib/states/global.svelte";
+    import { SITE_NAME } from "$lib/Constants";
     import "../app.css";
     import Header from "../lib/Header.svelte";
     interface Props {
@@ -15,7 +16,7 @@
 </script>
 
 <svelte:head>
-    <title>Dailies</title>
+    <title>{SITE_NAME}</title>
 </svelte:head>
 
 
