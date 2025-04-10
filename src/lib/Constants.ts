@@ -12,13 +12,3 @@ export const ENTRY_CONTENT_WARN_LENGTH = 180;
 // When fetching an entry from the server, determine how many extra entries 
 // before and after the requested entry to pre-fetch.
 export const NEARBY_ENTRIES_TO_PREFETCH = 0;
-
-// Whether to use the legacy API mode (compatible with classic Dailies app)
-export const LEGACY_API_MODE = true;
-
-// URL for the API endpoint when legacy mode is active
-export const LEGACY_API_ENDPOINT_URL = "http://aoi-nas:34275";
-
-// Connection string for SQLite database
-export const SQLITE_DB_CONNECTION = "sqlite://:memory:";
-

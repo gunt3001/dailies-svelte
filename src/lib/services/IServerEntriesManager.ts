@@ -1,4 +1,4 @@
-import { LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, SQLITE_DB_CONNECTION } from "$lib/Constants";
+import { LEGACY_API_ENDPOINT_URL, LEGACY_API_MODE, SQLITE_DB_CONNECTION } from "$lib/ServerConfig";
 import type IEntries from "$lib/model/IEntries";
 import type IEntry from "$lib/model/IEntry";
 import { LegacyAPIServerEntriesManager } from "./LegacyAPIServerEntriesManager";
