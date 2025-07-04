@@ -1,4 +1,42 @@
-<div class="border rounded-lg p-4 my-2 cursor-pointer hover:bg-primary/5 dark:hover:bg-primary/10 dark:bg-gray-900 dark:border-gray-700 italic shadow-sm">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    <p class="text-right text-sm mt-2">23 January 2023</p>
-</div>
+<script lang="ts">
+    import type IEntry from "./model/IEntry";
+    import * as Card from "$lib/components/ui/card";
+    import { getDayDifferenceText, parseDate } from "./utilities/dateUtilities";
+    import { toLongDate } from "./utilities/dateFormatter";
+
+    interface Props {
+        date: Date;
+        entry: IEntry | null;
+    }
+
+    let { date, entry }: Props = $props();
+</script>
+
+<Card.Root class="rounded-md">
+    <div class="flex flex-row px-6 gap-8">
+        <div class="flex-none">
+            <div class="font-semibold">
+                {toLongDate(date)}
+            </div>
+            <div class="text-muted-foreground text-sm">
+                {getDayDifferenceText(date, new Date())}
+            </div>
+            <div class="mt-4 text-sm font-semibold">
+                {entry?.mood}
+            </div>
+        </div>
+        {#if entry}
+            <div>
+                <div class="font-semibold">{entry.keyEvent}</div>
+                {entry.content}
+                <div class="mt-4 text-muted-foreground">
+                    {entry.remarks}
+                </div>
+            </div>
+        {:else}
+            <div>
+                <em> No entry </em>
+            </div>
+        {/if}
+    </div>
+</Card.Root>
