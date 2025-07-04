@@ -6,6 +6,7 @@
     import { formatDate } from "./utilities/dateUtilities";
     import { enhance } from "$app/forms";
     import { getEntriesManagerContext } from "./states/entries.svelte";
+    import Button from "./components/ui/button/button.svelte";
 
     // Context
     const appState = getAppStateContext();
@@ -156,11 +157,9 @@
         disabled={isSubmitting}
     ></textarea>
     <div class="text-right">
-        <button
+        <Button
             type="submit"
-            class="bg-purple-500 hover:bg-purple-600 font-medium rounded-lg py-2 w-32 mt-8 text-white drop-shadow-sm
-            disabled:bg-purple-300 disabled:drop-shadow-none dark:disabled:bg-gray-800 dark:disabled:text-gray-500 transition-colors
-            "
+            class="font-medium w-32 mt-8 h-12 text-lg"
             disabled={isSubmitting}
         >
             {#if isSubmitting}
@@ -168,6 +167,6 @@
             {:else}
                 Save
             {/if}
-        </button>
+        </Button>
     </div>
 </form>

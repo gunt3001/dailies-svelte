@@ -2,6 +2,7 @@
 
     import { page } from "$app/state";
     import { SITE_NAME } from "$lib/Constants";
+    import Button from "./components/ui/button/button.svelte";
 
     let currentPath = $derived(page.url.pathname);
 
@@ -37,7 +38,7 @@
             >
         </nav>
 
-        <div class="md:ml-auto w-96 max-w-full">
+        <div class="md:ml-auto w-80 max-w-full">
             <div class="relative">
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -64,10 +65,10 @@
                     placeholder="Search entries"
                     required
                 />
-                <button
+                <Button
                     type="button"
-                    class="text-white absolute right-2.5 bottom-1.5 bg-purple-500 hover:bg-purple-600 font-medium rounded-lg text-sm px-4 py-1.5 drop-shadow-sm"
-                    >Search</button
+                    class="absolute right-2.5 bottom-1 text-sm px-4 py-1.5"
+                    >Search</Button
                 >
             </div>
         </div>
