@@ -17,7 +17,7 @@ export function isSameDate(date1: Date, date2: Date) {
  * @returns The formatted date string in "YYYY-MM-DD" format.
  */
 export function formatDate(date: Date) {
-    
+
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
@@ -60,7 +60,7 @@ export function iterateDates(from: Date, to: Date): Date[] {
     let date = new Date(from);
     while (!isSameDate(date, to)) {
         returnDates.push(date);
-        
+
         date = new Date(date.getFullYear(),
             date.getMonth(),
             date.getDate() + 1);
@@ -88,5 +88,40 @@ export function* iterateMonths(from: Date, to: Date) {
             month = 0;
             year++;
         }
+    }
+}
+
+/**
+ * Get the number of day difference between two dates returned as string
+ */
+export function getDayDifferenceText(date: Date, inReferenceTo: Date): string {
+    // Remove both time components
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    inReferenceTo = new Date(
+        inReferenceTo.getFullYear(),
+        inReferenceTo.getMonth(),
+        inReferenceTo.getDate(),
+    );
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = date.getTime() - inReferenceTo.getTime();
+
+    // Convert milliseconds to days
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+    if (daysDifference < -1) {
+        return (
+            (Math.round(daysDifference) * -1).toLocaleString() + " days ago"
+        );
+    } else if (daysDifference == -1) {
+        return "Yesterday";
+    } else if (daysDifference == 1) {
+        return "Tomorrow";
+    } else if (daysDifference >= 1) {
+        return (
+            "in " + Math.round(daysDifference).toLocaleString() + " days"
+        );
+    } else {
+        return "Today";
     }
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatDate } from "./utilities/dateUtilities";
+    import { formatDate, getDayDifferenceText } from "./utilities/dateUtilities";
     import type IEntry from "./model/IEntry";
     import { getEntriesManagerContext } from "./states/entries.svelte";
 
@@ -23,37 +23,6 @@
     let header = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.keyEvent ?? "");
     let content = $derived(activeEntry === undefined ? "Loading..." : activeEntry?.content ?? "");
 
-    function getDayDifferenceText(date: Date, inReferenceTo: Date): string {
-        // Remove both time components
-        date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        inReferenceTo = new Date(
-            inReferenceTo.getFullYear(),
-            inReferenceTo.getMonth(),
-            inReferenceTo.getDate(),
-        );
-
-        // Calculate the time difference in milliseconds
-        const timeDifference = date.getTime() - inReferenceTo.getTime();
-
-        // Convert milliseconds to days
-        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-        if (daysDifference < -1) {
-            return (
-                (Math.round(daysDifference) * -1).toLocaleString() + " days ago"
-            );
-        } else if (daysDifference == -1) {
-            return "Yesterday";
-        } else if (daysDifference == 1) {
-            return "Tomorrow";
-        } else if (daysDifference >= 1) {
-            return (
-                "in " + Math.round(daysDifference).toLocaleString() + " days"
-            );
-        } else {
-            return "Today";
-        }
-    }
 </script>
 
 <td
