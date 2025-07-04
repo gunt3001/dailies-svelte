@@ -29,7 +29,7 @@
             <div>
                 <div class="font-semibold">{entry.keyEvent}</div>
                 {entry.content}
-                <div class="mt-4 text-muted-foreground">
+                <div class="mt-4 text-muted-foreground whitespace-pre">
                     {entry.remarks}
                 </div>
             </div>
