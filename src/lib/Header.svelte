@@ -66,7 +66,7 @@
                 />
                 <button
                     type="button"
-                    class="text-white absolute right-2.5 bottom-1.5 bg-purple-500 hover:bg-purple-600 font-medium rounded-lg text-sm px-4 py-1.5 drop-shadow"
+                    class="text-white absolute right-2.5 bottom-1.5 bg-purple-500 hover:bg-purple-600 font-medium rounded-lg text-sm px-4 py-1.5 drop-shadow-sm"
                     >Search</button
                 >
             </div>
