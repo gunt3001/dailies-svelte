@@ -61,7 +61,7 @@
         captionLayout="dropdown"
     />
 
-    <div class="p-0 flex flex-col gap-4">
+    <div class="p-0 flex flex-col gap-4 w-full">
         <!-- Loop through the dates in the month and render EntryCard components -->
         {#each dates as date}
             <EntryCard {date} />
