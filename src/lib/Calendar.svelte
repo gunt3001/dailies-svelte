@@ -18,6 +18,8 @@
     let calendarCells: Date[][] = $derived(buildCalendarCells(month, year));
 
     // Fetch entries when the calendar is updated
+    // We use $effect here as we need up update the app-wide state using a
+    // network fetch request, which doesn't fit with $state or $derived mechanisms.
     $effect(() => {
         prefetchEntries(calendarCells);
     });
