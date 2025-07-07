@@ -54,7 +54,7 @@
 		value = new CalendarDate(
 			today.getFullYear(),
 			today.getMonth() + 1,
-			today.getDay(),
+			today.getDate(),
 		);
 	}
 
