@@ -3,8 +3,14 @@
 	import * as Calendar from "./index.js";
 	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
 	import type { ButtonVariant } from "../button/button.svelte";
-	import { isEqualMonth, type DateValue } from "@internationalized/date";
+	import {
+		CalendarDate,
+		isEqualMonth,
+		type DateValue,
+	} from "@internationalized/date";
 	import type { Snippet } from "svelte";
+	import Button from "../button/button.svelte";
+	import CalendarDay from "./calendar-day.svelte";
 
 	let {
 		ref = $bindable(null),
@@ -24,7 +30,11 @@
 		...restProps
 	}: WithoutChildrenOrChild<CalendarPrimitive.RootProps> & {
 		buttonVariant?: ButtonVariant;
-		captionLayout?: "dropdown" | "dropdown-months" | "dropdown-years" | "label";
+		captionLayout?:
+			| "dropdown"
+			| "dropdown-months"
+			| "dropdown-years"
+			| "label";
 		months?: CalendarPrimitive.MonthSelectProps["months"];
 		years?: CalendarPrimitive.YearSelectProps["years"];
 		monthFormat?: CalendarPrimitive.MonthSelectProps["monthFormat"];
@@ -37,6 +47,27 @@
 		if (captionLayout.startsWith("dropdown")) return "short";
 		return "long";
 	});
+
+	// Return to today
+	function returnToToday() {
+		const today = new Date();
+		value = new CalendarDate(
+			today.getFullYear(),
+			today.getMonth() + 1,
+			today.getDay(),
+		);
+	}
+
+	function isToday() {
+		if (!value) return false;
+		let calendarDate = value as CalendarDate;
+		const today = new Date();
+		return (
+			calendarDate.year === today.getFullYear() &&
+			calendarDate.month === today.getMonth() + 1 &&
+			calendarDate.day === today.getDay()
+		);
+	}
 </script>
 
 <!--
@@ -51,7 +82,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{disableDaysOutsideMonth}
 	class={cn(
 		"bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-		className
+		className,
 	)}
 	{locale}
 	{monthFormat}
@@ -59,6 +90,11 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{...restProps}
 >
 	{#snippet children({ months, weekdays })}
+		<div class="flex flex-row justify-center mb-4">
+			<Button variant="outline" onclick={returnToToday} disabled={isToday()}
+				>Today</Button
+			>
+		</div>
 		<Calendar.Months>
 			<Calendar.Nav>
 				<Calendar.PrevButton variant={buttonVariant} />
@@ -93,11 +129,17 @@ get along, so we shut typescript up by casting `value` to `never`.
 							{#each month.weeks as weekDates (weekDates)}
 								<Calendar.GridRow class="mt-2 w-full">
 									{#each weekDates as date (date)}
-										<Calendar.Cell {date} month={month.value}>
+										<Calendar.Cell
+											{date}
+											month={month.value}
+										>
 											{#if day}
 												{@render day({
 													day: date,
-													outsideMonth: !isEqualMonth(date, month.value),
+													outsideMonth: !isEqualMonth(
+														date,
+														month.value,
+													),
 												})}
 											{:else}
 												<Calendar.Day />
