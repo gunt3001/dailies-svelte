@@ -7,9 +7,10 @@
 
     interface Props {
         date: Date;
+        id: string;
     }
 
-    let { date }: Props = $props();
+    let { date, id }: Props = $props();
 
     // Current entry
     // null means empty entry. undefined means loading.
@@ -17,7 +18,7 @@
     let entry: IEntry | null | undefined = $derived(entriesManager.cachedEntries[formatDate(date)]);
 </script>
 
-<Card.Root class="rounded-md">
+<Card.Root class="rounded-md" id={id}>
     <div class="flex flex-row px-6 gap-8">
         <div class="whitespace-normal lg:whitespace-nowrap min-w-32 lg:min-w-64">
             <div class="font-semibold">
