@@ -18,10 +18,10 @@
     >
         <h1 class="font-semibold text-xl">On this day...</h1>
         <h2 class="font-semibold text-lg">2 years ago</h2>
-        <EntryCard />
+        <!-- <EntryCard /> -->
         <h2 class="font-semibold text-lg">4 years ago</h2>
-        <EntryCard />
+        <!-- <EntryCard /> -->
         <h1 class="font-semibold text-xl">And 335 days ago...</h1>
-        <EntryCard />
+        <!-- <EntryCard /> -->
     </div>
 </div>
