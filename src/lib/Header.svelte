@@ -39,7 +39,7 @@
         </nav>
 
         <div class="md:ml-auto w-80 max-w-full">
-            <div class="relative">
+            <form action="/search" method="GET" class="relative">
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                 >
@@ -60,17 +60,18 @@
                 </div>
                 <input
                     type="search"
+                    name="q"
                     id="default-search"
                     class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-white dark:border-gray-800"
                     placeholder="Search entries"
                     required
                 />
                 <Button
-                    type="button"
+                    type="submit"
                     class="absolute right-2.5 bottom-1 text-sm px-4 py-1.5"
                     >Search</Button
                 >
-            </div>
+            </form>
         </div>
     </div>
 </header>

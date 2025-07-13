@@ -29,4 +29,9 @@ export class SqliteServerEntriesManager implements IServerEntriesManager {
         // TODO: Implement the method to create or update an entry in the Sqlite database
         throw new Error("Method not implemented.");
     }
+
+    async searchEntries(query: string): Promise<IEntries> {
+        // TODO: Implement the method to search entries in the Sqlite database
+        throw new Error("Method not implemented.");
+    }
 }
