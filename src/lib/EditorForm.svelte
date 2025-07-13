@@ -6,6 +6,7 @@
     import { formatDate } from "./utilities/dateUtilities";
     import { enhance } from "$app/forms";
     import { getEntriesManagerContext } from "./states/entries.svelte";
+    import Button from "./components/ui/button/button.svelte";
 
     // Context
     const appState = getAppStateContext();
@@ -91,7 +92,7 @@
         cols="30"
         rows="4"
         class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l
-        disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 transition-colors"
+        disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
         placeholder="Say what's going on..."
         bind:value={content}
         oninput={() => onFormFieldUpdated()}
@@ -119,7 +120,7 @@
                 name="keyEvent"
                 type="text"
                 class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l
-                disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 transition-colors"
+                disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
                 bind:value={keyEvent}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -132,7 +133,7 @@
                 type="text"
                 list="mood-list"
                 class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l
-                disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 transition-colors"
+                disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
                 bind:value={mood}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -150,17 +151,15 @@
         cols="30"
         rows="4"
         class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l
-        disabled:bg-gray-100 disabled:dark:bg-gray-800 disabled:text-gray-500 transition-colors"
+        disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
         bind:value={remarks}
         oninput={() => onFormFieldUpdated()}
         disabled={isSubmitting}
     ></textarea>
     <div class="text-right">
-        <button
+        <Button
             type="submit"
-            class="bg-purple-500 hover:bg-purple-600 font-medium rounded-lg py-2 w-32 mt-8 text-white drop-shadow
-            disabled:bg-purple-300 disabled:drop-shadow-none disabled:dark:bg-gray-800 disabled:dark:text-gray-500 transition-colors
-            "
+            class="font-medium w-32 mt-8 h-12 text-lg"
             disabled={isSubmitting}
         >
             {#if isSubmitting}
@@ -168,6 +167,6 @@
             {:else}
                 Save
             {/if}
-        </button>
+        </Button>
     </div>
 </form>

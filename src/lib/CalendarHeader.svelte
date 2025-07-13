@@ -39,7 +39,7 @@
             {new Date(year, month, 1).toLocaleDateString(undefined, { month: "long" })}
         </h1>
         <input
-            class="rounded dark:bg-gray-900 pr-2 pl-4 py-1 text-center"
+            class="rounded-sm dark:bg-gray-900 pr-2 pl-4 py-1 text-center"
             type="number"
             value={year}
             oninput={(e) => (year = parseInt(e.currentTarget.value))}
