@@ -27,7 +27,7 @@
 
 <td
     class:text-gray-500={!isCurrentMonth}
-    class="p-2 h-32 align-top text-xs sm:text-sm rounded-md border hover:shadow-sm hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 cursor-pointer"
+    class="p-2 h-32 align-top text-xs sm:text-sm rounded-md border hover:shadow-sm hover:bg-gray-100 cursor-pointer"
 >
     <div>
         <span class="font-semibold text-sm">{day.getDate()}</span>

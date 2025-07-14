@@ -8,13 +8,13 @@
 
 <div class="container mx-auto grid md:grid-cols-3 gap-4">
     <div
-        class="col md:col-span-2 overflow-hidden p-8 drop-shadow-sm bg-white rounded-sm border dark:bg-gray-900 dark:text-white dark:border-gray-800"
+        class="col md:col-span-2 overflow-hidden p-8 drop-shadow-sm bg-white rounded-sm border"
     >
         <DatePillsBar />
         <Editor />        
     </div>
     <div
-        class="col p-8 drop-shadow-sm overflow-hidde bg-white rounded-sm border dark:bg-gray-900 dark:text-white dark:border-gray-800"
+        class="col p-8 drop-shadow-sm overflow-hidde bg-white rounded-sm border"
     >
         <h1 class="font-semibold text-xl">On this day...</h1>
         <h2 class="font-semibold text-lg">2 years ago</h2>

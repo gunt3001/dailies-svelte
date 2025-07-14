@@ -8,17 +8,15 @@
 
     let { date, isActive = false, isIncomplete = true, onClick }: Props = $props();
 
-    let hoverClasses = $derived(isActive ? "" : "hover:bg-primary/5 dark:hover:bg-primary/10");
+    let hoverClasses = $derived(isActive ? "" : "hover:bg-primary/5");
 </script>
 
 <button
     onclick={() => { onClick() }}
     type="button"
-    class="flex flex-col shrink-0 mb-3 w-14 h-20 font-semibold rounded-lg justify-center items-center border dark:border-gray-800 dark:bg-gray-800 {hoverClasses}"
-    class:dark:bg-primary={isActive}
+    class="flex flex-col shrink-0 mb-3 w-14 h-20 font-semibold rounded-lg justify-center items-center border {hoverClasses}"
     class:bg-primary={isActive}
     class:text-primary-foreground={isActive}
-    class:dark:text-gray-600={isIncomplete && !isActive}
 >
     <div class="text-center cursor-pointer">
         <div>

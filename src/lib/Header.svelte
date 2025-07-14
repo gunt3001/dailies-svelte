@@ -45,7 +45,7 @@
                 >
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 text-gray-500"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
                     type="search"
                     name="q"
                     id="default-search"
-                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-white dark:border-gray-800"
+                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50"
                     placeholder="Search entries"
                     required
                 />

@@ -91,8 +91,8 @@
         name="content"
         cols="30"
         rows="4"
-        class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l
-        disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
+        class="w-full border-2 rounded-lg p-4 text-l
+        disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
         placeholder="Say what's going on..."
         bind:value={content}
         oninput={() => onFormFieldUpdated()}
@@ -119,8 +119,8 @@
             <input
                 name="keyEvent"
                 type="text"
-                class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l
-                disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
+                class="w-full border-2 rounded-lg p-2 text-l
+                disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
                 bind:value={keyEvent}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -132,8 +132,8 @@
                 name="mood"
                 type="text"
                 list="mood-list"
-                class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-2 text-l
-                disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
+                class="w-full border-2 rounded-lg p-2 text-l
+                disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
                 bind:value={mood}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -150,8 +150,8 @@
         name="remarks"
         cols="30"
         rows="4"
-        class="dark:bg-gray-900 w-full border-2 dark:border-gray-800 rounded-lg p-4 text-l
-        disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 transition-colors"
+        class="w-full border-2 rounded-lg p-4 text-l
+        disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
         bind:value={remarks}
         oninput={() => onFormFieldUpdated()}
         disabled={isSubmitting}
