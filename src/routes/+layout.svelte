@@ -20,6 +20,7 @@
     <title>{SITE_NAME}</title>
 </svelte:head>
 
+<ModeWatcher />
 
 <div class="absolute w-full">
     <div class="h-52 w-full bg-primary"></div>
