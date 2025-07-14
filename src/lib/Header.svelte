@@ -3,6 +3,7 @@
     import { page } from "$app/state";
     import { SITE_NAME } from "$lib/Constants";
     import Button from "./components/ui/button/button.svelte";
+    import ThemeToggle from "./components/ThemeToggle.svelte";
 
     let currentPath = $derived(page.url.pathname);
 
@@ -38,8 +39,9 @@
             >
         </nav>
 
-        <div class="md:ml-auto w-80 max-w-full">
-            <form action="/search" method="GET" class="relative" data-sveltekit-reload>
+        <div class="md:ml-auto w-80 max-w-full flex items-center gap-2">
+            <ThemeToggle />
+            <form action="/search" method="GET" class="relative flex-1" data-sveltekit-reload>
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                 >
