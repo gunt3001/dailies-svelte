@@ -34,5 +34,12 @@ export interface IServerEntriesManager {
      * @returns A promise that resolves to the created entry.
      */
     createOrUpdateEntry(entry: IEntry): Promise<IEntry>;
+
+    /**
+     * Searches for entries matching the specified query.
+     * @param query - The search query string.
+     * @returns A promise that resolves to an object containing matching entries.
+     */
+    searchEntries(query: string): Promise<IEntries>;
 }
 

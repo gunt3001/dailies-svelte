@@ -96,6 +96,19 @@ export class LegacyAPIServerEntriesManager implements IServerEntriesManager {
         }
     }
 
+    async searchEntries(query: string): Promise<IEntries> {
+        const response = await fetch(`${this.apiUrl}/Entries/search?query=${encodeURIComponent(query)}`);
+        const entries: ILegacyEntry[] = await response.json();
+        
+        const newEntries: IEntries = {};
+        for (const entry of entries) {
+            const dateStr = entry.date.substring(0, 10);
+            newEntries[dateStr] = this.convertToNewFormat(entry);
+        }
+        
+        return newEntries;
+    }
+
     /**
      * Converts a legacy entry to the new format.
      *
