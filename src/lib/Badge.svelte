@@ -1,7 +1,7 @@
 <script module lang="ts">
     export enum ColorStyles {
-        Gray = "bg-gray-100 text-gray-800",
-        Blue = "bg-blue-100 text-blue-800",
+        Gray = "bg-muted text-muted-foreground",
+        Blue = "bg-primary text-primary-foreground",
     };
 </script>
 <script lang="ts">

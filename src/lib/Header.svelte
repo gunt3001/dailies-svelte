@@ -64,13 +64,13 @@
                     type="search"
                     name="q"
                     id="default-search"
-                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50"
+                    class="block h-12 w-full p-3 pl-10 text-sm text-foreground bg-card border border-border rounded-lg"
                     placeholder="Search entries"
                     required
                 />
                 <Button
                     type="submit"
-                    class="absolute right-2.5 bottom-1 text-sm px-4 py-1.5"
+                    class="absolute right-2.5 bottom-1.5 text-sm px-4 py-1.5 h-9"
                     >Search</Button
                 >
             </form>
