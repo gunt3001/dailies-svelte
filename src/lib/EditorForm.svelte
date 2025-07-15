@@ -83,7 +83,7 @@
         cols="30"
         rows="4"
         class="w-full border-2 rounded-lg p-4 text-l
-        disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
+        disabled:bg-muted disabled:text-muted-foreground transition-colors"
         placeholder="Say what's going on..."
         bind:value={content}
         oninput={() => onFormFieldUpdated()}
@@ -111,7 +111,7 @@
                 name="keyEvent"
                 type="text"
                 class="w-full border-2 rounded-lg p-2 text-l
-                disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
+                disabled:bg-muted disabled:text-muted-foreground transition-colors"
                 bind:value={keyEvent}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -124,7 +124,7 @@
                 type="text"
                 list="mood-list"
                 class="w-full border-2 rounded-lg p-2 text-l
-                disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
+                disabled:bg-muted disabled:text-muted-foreground transition-colors"
                 bind:value={mood}
                 oninput={() => onFormFieldUpdated()}
                 disabled={isSubmitting}
@@ -142,7 +142,7 @@
         cols="30"
         rows="4"
         class="w-full border-2 rounded-lg p-4 text-l
-        disabled:bg-gray-100 disabled:text-gray-500 transition-colors"
+        disabled:bg-muted disabled:text-muted-foreground transition-colors"
         bind:value={remarks}
         oninput={() => onFormFieldUpdated()}
         disabled={isSubmitting}
