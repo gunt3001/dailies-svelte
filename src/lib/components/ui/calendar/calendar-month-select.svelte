@@ -18,11 +18,12 @@
 		className
 	)}
 >
-	<CalendarPrimitive.MonthSelect bind:ref class="absolute inset-0 opacity-0" {...restProps}>
+	<CalendarPrimitive.MonthSelect bind:ref class="bg-background absolute inset-0 opacity-0" {...restProps}>
 		{#snippet child({ props, monthItems, selectedMonthItem })}
 			<select {...props} {value} {onchange}>
 				{#each monthItems as monthItem (monthItem.value)}
 					<option
+						class="text-foreground"
 						value={monthItem.value}
 						selected={value !== undefined
 							? monthItem.value === value
