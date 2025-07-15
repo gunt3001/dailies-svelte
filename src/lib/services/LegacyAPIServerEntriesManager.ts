@@ -109,6 +109,20 @@ export class LegacyAPIServerEntriesManager implements IServerEntriesManager {
         return newEntries;
     }
 
+    async fetchMemoryEntries(maxEntries: number): Promise<IEntry[]> {
+        const response = await fetch(`${this.apiUrl}/Entries/memory?maxEntriesToRetrieve=${maxEntries}`);
+        const entries: ILegacyEntry[] = await response.json();
+        
+        return entries.map(entry => this.convertToNewFormat(entry));
+    }
+
+    async fetchRandomEntry(): Promise<IEntry | null> {
+        const response = await fetch(`${this.apiUrl}/Entries/random`);
+        const entry: ILegacyEntry = await response.json();
+        
+        return entry ? this.convertToNewFormat(entry) : null;
+    }
+
     /**
      * Converts a legacy entry to the new format.
      *

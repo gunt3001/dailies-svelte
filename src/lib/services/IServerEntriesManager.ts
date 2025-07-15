@@ -41,5 +41,18 @@ export interface IServerEntriesManager {
      * @returns A promise that resolves to an object containing matching entries.
      */
     searchEntries(query: string): Promise<IEntries>;
+
+    /**
+     * Retrieves a few random entries from the same day and month in previous years.
+     * @param maxEntries - Maximum number of entries to retrieve.
+     * @returns A promise that resolves to an array of entries from the same day in past years.
+     */
+    fetchMemoryEntries(maxEntries: number): Promise<IEntry[]>;
+
+    /**
+     * Retrieves a single completely random entry.
+     * @returns A promise that resolves to a random entry, or null if no entries exist.
+     */
+    fetchRandomEntry(): Promise<IEntry | null>;
 }
 
