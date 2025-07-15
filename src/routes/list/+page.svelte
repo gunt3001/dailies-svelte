@@ -86,7 +86,7 @@
             today.getMonth() + 1,
             today.getDate(),
         )}
-        class="w-full md:w-auto px-6 rounded-md border shadow-sm md:sticky md:top-6"
+        class="w-full md:w-auto px-6 rounded-md border shadow-sm md:sticky md:top-6 bg-card text-card-foreground"
         captionLayout="dropdown"
     />
 

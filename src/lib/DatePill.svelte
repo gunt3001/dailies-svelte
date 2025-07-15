@@ -8,7 +8,7 @@
 
     let { date, isActive = false, isIncomplete = true, onClick }: Props = $props();
 
-    let hoverClasses = $derived(isActive ? "" : "hover:bg-primary/5");
+    let hoverClasses = $derived(isActive ? "" : "hover:bg-accent/50");
 </script>
 
 <button

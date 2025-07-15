@@ -24,7 +24,7 @@
 
 <div class="absolute w-full">
     <div class="h-52 w-full bg-primary"></div>
-    <div class="min-h-screen bg-white"></div>
+    <div class="min-h-screen bg-background"></div>
 </div>
 
 <div class="relative">

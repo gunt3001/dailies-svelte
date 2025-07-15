@@ -28,7 +28,7 @@
 
 <div class="grid w-full">
     <div
-        class="col md:px-8 py-8 bg-white"
+        class="col md:px-8 py-8 bg-background"
     >
         <CalendarHeader bind:month={calendarMonth} bind:year={calendarYear}/>
         <Calendar month={calendarMonth} year={calendarYear} />
