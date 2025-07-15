@@ -34,4 +34,14 @@ export class SqliteServerEntriesManager implements IServerEntriesManager {
         // TODO: Implement the method to search entries in the Sqlite database
         throw new Error("Method not implemented.");
     }
+
+    async fetchMemoryEntries(maxEntries: number): Promise<IEntry[]> {
+        // TODO: Implement the method to fetch memory entries from the Sqlite database
+        throw new Error("Method not implemented.");
+    }
+
+    async fetchRandomEntry(): Promise<IEntry | null> {
+        // TODO: Implement the method to fetch a random entry from the Sqlite database
+        throw new Error("Method not implemented.");
+    }
 }

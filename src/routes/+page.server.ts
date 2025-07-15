@@ -5,7 +5,23 @@ import type IEntry from '$lib/model/IEntry';
 import { ServerEntriesManager } from '$lib/services/IServerEntriesManager';
 
 export const load = (async () => {
-    return {};
+    try {
+        const [memoryEntries, randomEntry] = await Promise.all([
+            ServerEntriesManager.fetchMemoryEntries(2),
+            ServerEntriesManager.fetchRandomEntry()
+        ]);
+
+        return {
+            memoryEntries,
+            randomEntry
+        };
+    } catch (error) {
+        console.error('Failed to fetch memory data:', error);
+        return {
+            memoryEntries: [],
+            randomEntry: null
+        };
+    }
 }) satisfies PageServerLoad;
 
 // Actions for form submissions
