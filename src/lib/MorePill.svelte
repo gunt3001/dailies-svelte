@@ -12,7 +12,7 @@
 <button
     onclick={() => { onClick() }}
     type="button"
-    class="flex flex-col shrink-0 mb-3 w-14 h-20 font-semibold rounded-lg justify-center items-center border dark:border-gray-800 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10"
+    class="flex flex-col shrink-0 mb-3 w-14 h-20 font-semibold rounded-lg justify-center items-center border hover:bg-accent/50"
 >
     <div class="text-center cursor-pointer">
         <div class="text-3xl">

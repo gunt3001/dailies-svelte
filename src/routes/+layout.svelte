@@ -4,6 +4,7 @@
     import { SITE_NAME } from "$lib/Constants";
     import "../app.css";
     import Header from "../lib/Header.svelte";
+    import { ModeWatcher } from "mode-watcher";
     interface Props {
         children?: import('svelte').Snippet;
     }
@@ -19,10 +20,11 @@
     <title>{SITE_NAME}</title>
 </svelte:head>
 
+<ModeWatcher />
 
 <div class="absolute w-full">
     <div class="h-52 w-full bg-primary"></div>
-    <div class="min-h-screen bg-white dark:bg-gray-900"></div>
+    <div class="min-h-screen bg-background"></div>
 </div>
 
 <div class="relative">

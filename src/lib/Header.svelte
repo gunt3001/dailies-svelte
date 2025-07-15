@@ -3,6 +3,7 @@
     import { page } from "$app/state";
     import { SITE_NAME } from "$lib/Constants";
     import Button from "./components/ui/button/button.svelte";
+    import ThemeToggle from "./components/ThemeToggle.svelte";
 
     let currentPath = $derived(page.url.pathname);
 
@@ -38,14 +39,15 @@
             >
         </nav>
 
-        <div class="md:ml-auto w-80 max-w-full">
-            <form action="/search" method="GET" class="relative" data-sveltekit-reload>
+        <div class="md:ml-auto w-80 max-w-full flex items-center gap-2">
+            <ThemeToggle />
+            <form action="/search" method="GET" class="relative flex-1" data-sveltekit-reload>
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                 >
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 text-gray-500"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -62,7 +64,7 @@
                     type="search"
                     name="q"
                     id="default-search"
-                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-white dark:border-gray-800"
+                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50"
                     placeholder="Search entries"
                     required
                 />

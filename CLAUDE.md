@@ -4,12 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run check` - Run Svelte type checking
-- `npm run check:watch` - Run type checking in watch mode
-- `npm run lint` - Run ESLint
+Always use `pnpm` for package management in this project.
+
+- `pnpm run dev` - Start development server
+- `pnpm run build` - Build for production
+- `pnpm run preview` - Preview production build
+- `pnpm run check` - Run Svelte type checking
+- `pnpm run check:watch` - Run type checking in watch mode
+- `pnpm run lint` - Run ESLint
 
 ## Project Architecture
 

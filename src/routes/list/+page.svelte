@@ -1,6 +1,7 @@
 <script lang="ts">
     import Calendar from "$lib/components/ui/calendar/calendar.svelte";
     import EntryCard from "$lib/EntryCard.svelte";
+    import * as Card from "$lib/components/ui/card";
     import { getEntriesManagerContext } from "$lib/states/entries.svelte";
     import { getAppStateContext } from "$lib/states/global.svelte";
     import { formatDate, iterateDates } from "$lib/utilities/dateUtilities";
@@ -85,14 +86,16 @@
             today.getMonth() + 1,
             today.getDate(),
         )}
-        class="w-full md:w-auto px-6 rounded-md border shadow-sm md:sticky md:top-6"
+        class="w-full md:w-auto px-6 rounded-md border shadow-sm md:sticky md:top-6 bg-card text-card-foreground"
         captionLayout="dropdown"
     />
 
-    <div class="p-0 flex flex-col gap-4 w-full">
-        <!-- Loop through the dates in the month and render EntryCard components -->
-        {#each dates as date}
-            <EntryCard {date} id={`list-entry-${formatDate(date)}`} />
-        {/each}
-    </div>
+    <Card.Root class="rounded-md w-full p-8">
+        <div class="p-0 flex flex-col gap-4 w-full">
+            <!-- Loop through the dates in the month and render EntryCard components -->
+            {#each dates as date}
+                <EntryCard {date} id={`list-entry-${formatDate(date)}`} />
+            {/each}
+        </div>
+    </Card.Root>
 </div>
