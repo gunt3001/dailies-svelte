@@ -5,8 +5,7 @@
     } from "./utilities/dateUtilities";
     import type IEntry from "./model/IEntry";
     import { getEntriesManagerContext } from "./states/entries.svelte";
-    import * as Card from "$lib/components/ui/card";
-
+    
     interface Props {
         day: Date; // The date for this cell
         isCurrentMonth: boolean; // Whether the date is part of the selected month in Calendar view
@@ -32,7 +31,10 @@
             : (activeEntry?.keyEvent ?? ""),
     );
     let content = $derived(
-        activeEntry === undefined ? "Loading..." : (activeEntry?.content ?? ""),
+        activeEntry === undefined ? "Loading..." : (activeEntry?.content ?? "")
+    );
+    let mood = $derived(
+        activeEntry === undefined ? "" : (activeEntry?.mood ?? "")
     );
 </script>
 
@@ -42,6 +44,9 @@
 >
     <div>
         <span class="font-semibold text-sm">{day.getDate()}</span>
+    </div>
+    <div class="text-muted-foreground">
+        <span class="text-xs">{mood}</span>
         <span class="text-xs float-right"
             >{getDayDifferenceText(day, new Date())}</span
         >
@@ -49,7 +54,7 @@
     <p class="mt-2">
         <span class="font-semibold text-sm">{header}</span>
     </p>
-    <p class="min-h-32">
+    <p class="min-h-24">
         <span class="text-xs max-sm:hidden">{content}</span>
     </p>
 </td>
