@@ -1,5 +1,6 @@
 <script lang="ts">
     import EntryCardRaw from "$lib/EntryCardRaw.svelte";
+    import * as Card from "$lib/components/ui/card";
     import { formatDate, getDayDifferenceText, parseDate } from "$lib/utilities/dateUtilities";
     import { toLongDate } from "$lib/utilities/dateFormatter";
     import type { PageData } from "./$types";
@@ -43,21 +44,23 @@
             <p class="text-sm mt-2">Try different keywords or check your spelling.</p>
         </div>
     {:else if entriesList.length > 0}
-        <div class="flex flex-col gap-4">
-            {#each entriesList as { date, dateStr, entry }}
-                <EntryCardRaw 
-                    {date}
-                    id={`search-entry-${dateStr}`}
-                    dateText={toLongDate(date)}
-                    dayDifferenceText={getDayDifferenceText(date, today)}
-                    mood={entry?.mood}
-                    keyEvent={entry?.keyEvent}
-                    content={entry?.content}
-                    remarks={entry?.remarks}
-                    isLoading={false}
-                    isEmpty={!entry}
-                />
-            {/each}
-        </div>
+        <Card.Root class="rounded-md p-8">
+            <div class="flex flex-col gap-4">
+                {#each entriesList as { date, dateStr, entry }}
+                    <EntryCardRaw 
+                        {date}
+                        id={`search-entry-${dateStr}`}
+                        dateText={toLongDate(date)}
+                        dayDifferenceText={getDayDifferenceText(date, today)}
+                        mood={entry?.mood}
+                        keyEvent={entry?.keyEvent}
+                        content={entry?.content}
+                        remarks={entry?.remarks}
+                        isLoading={false}
+                        isEmpty={!entry}
+                    />
+                {/each}
+            </div>
+        </Card.Root>
     {/if}
 </div>
