@@ -4,6 +4,7 @@
     import type IEntry from "./model/IEntry";
     import { getAppStateContext } from "./states/global.svelte";
     import { formatDate } from "./utilities/dateUtilities";
+    import { SeriesUtilities } from "./utilities/seriesUtilities";
     import { enhance } from "$app/forms";
     import { getEntriesManagerContext } from "./states/entries.svelte";
     import Button from "./components/ui/button/button.svelte";
@@ -35,7 +36,7 @@
     let isSubmitting = $state(false);
 
     // Derived states
-    let series = $derived(getSeries(content));
+    let series = $derived(SeriesUtilities.getSeries(content));
     let charCount = $derived(content.length - (series ? series.length + 3 : 0));
 
     // Update global state when there are changes in the form fields
@@ -53,16 +54,6 @@
                     remarks != ""));
     }
 
-    function getSeries(content: string): string | null {
-        // If the content is prefixed like '[some series name] content',
-        // extract the series name
-        const seriesRegex = /^\[(.+)\] (.+)$/;
-        const match = seriesRegex.exec(content);
-        if (match) {
-            return match[1];
-        }
-        return null;
-    }
 
     function onSubmit(event: Event) {
         // Remove the editor has unsaved changes flag before continuing

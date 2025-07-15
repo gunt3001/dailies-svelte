@@ -1,5 +1,8 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card";
+    import { faCampground } from "@fortawesome/free-solid-svg-icons";
+    import Badge, { ColorStyles } from "./Badge.svelte";
+    import { SeriesUtilities } from "./utilities/seriesUtilities";
 
     interface Props {
         date: Date;
@@ -26,6 +29,10 @@
         isEmpty = false, 
         id 
     }: Props = $props();
+
+    // Derived states for series detection
+    let series = $derived(content ? SeriesUtilities.getSeries(content) : null);
+    let displayContent = $derived(content ? SeriesUtilities.removeSeriesFromContent(content) : content);
 </script>
 
 <Card.Root class="rounded-md" id={id}>
@@ -52,7 +59,15 @@
         {:else}
             <div>
                 <div class="font-semibold">{keyEvent || ""}</div>
-                {content || ""}
+                <div class="mb-2">
+                    {#if series}
+                        <Badge
+                            icon={faCampground}
+                            roundStyle={true}
+                            colorStyle={ColorStyles.Blue}>{series}</Badge>
+                    {/if}
+                </div>
+                {displayContent || ""}
                 <div class="mt-4 text-muted-foreground whitespace-pre-wrap">
                     {remarks || ""}
                 </div>

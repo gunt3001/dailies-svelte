@@ -5,7 +5,10 @@
     } from "./utilities/dateUtilities";
     import type IEntry from "./model/IEntry";
     import { getEntriesManagerContext } from "./states/entries.svelte";
-    
+    import { faCampground } from "@fortawesome/free-solid-svg-icons";
+    import Badge, { ColorStyles } from "./Badge.svelte";
+    import { SeriesUtilities } from "./utilities/seriesUtilities";
+
     interface Props {
         day: Date; // The date for this cell
         isCurrentMonth: boolean; // Whether the date is part of the selected month in Calendar view
@@ -31,10 +34,22 @@
             : (activeEntry?.keyEvent ?? ""),
     );
     let content = $derived(
-        activeEntry === undefined ? "Loading..." : (activeEntry?.content ?? "")
+        activeEntry === undefined ? "Loading..." : (activeEntry?.content ?? ""),
     );
     let mood = $derived(
-        activeEntry === undefined ? "" : (activeEntry?.mood ?? "")
+        activeEntry === undefined ? "" : (activeEntry?.mood ?? ""),
+    );
+
+    // Series detection
+    let series = $derived(
+        activeEntry && activeEntry.content
+            ? SeriesUtilities.getSeries(activeEntry.content)
+            : null,
+    );
+    let displayContent = $derived(
+        activeEntry && activeEntry.content
+            ? SeriesUtilities.removeSeriesFromContent(activeEntry.content)
+            : content,
     );
 </script>
 
@@ -51,10 +66,21 @@
             >{getDayDifferenceText(day, new Date())}</span
         >
     </div>
-    <p class="mt-2">
+    <div class="mt-2">
+        {#if series}
+            <div class="my-1" title={series}>
+                <Badge
+                    icon={faCampground}
+                    roundStyle={true}
+                    colorStyle={ColorStyles.Blue}
+                >
+                    <span class="truncate">{series}</span>
+                </Badge>
+            </div>
+        {/if}
         <span class="font-semibold text-sm">{header}</span>
-    </p>
-    <p class="min-h-24">
-        <span class="text-xs max-sm:hidden">{content}</span>
-    </p>
+    </div>
+    <div class="min-h-24">
+        <span class="text-xs max-sm:hidden">{displayContent}</span>
+    </div>
 </td>

@@ -24,7 +24,7 @@
 </script>
 
 <span
-    class={"text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-sm me-2 " + 
+    class={"max-w-full text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-sm me-2 " + 
     colorStyle + (roundStyle ? " rounded-full" : " rounded-sm")
     }
 >
