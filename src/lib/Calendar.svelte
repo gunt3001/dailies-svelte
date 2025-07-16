@@ -60,6 +60,11 @@
     }
     
     let editorDate: string | null = $state(null);
+    
+    function handleCellClick(date: Date) {
+        const dateString = date.toISOString().split('T')[0];
+        editorDate = dateString;
+    }
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
@@ -107,6 +112,7 @@
                         day.getDate() === highlightDay && 
                         day.getMonth() === month && 
                         day.getFullYear() === year}
+                    onCellClick={handleCellClick}
                 />
             {/each}
         </tr>

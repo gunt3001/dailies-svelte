@@ -20,9 +20,11 @@
         entry: IEntry | null;
         // Date this entry will be saved to
         date: Date;
+        // Callback when form submission succeeds
+        onSubmitSuccess?: () => void;
     }
 
-    let { charCountWarning, entry, date }: Props = $props();
+    let { charCountWarning, entry, date, onSubmitSuccess }: Props = $props();
 
     // Form fields
     // We maintain states for the fields separate from the entry object
@@ -69,11 +71,16 @@
     onsubmit={onSubmit}
     use:enhance={() => {
         isSubmitting = true;
-        return async ({ update }) => {
+        return async ({ update, result }) => {
             isSubmitting = false;
             // Invalidate the new entry to re-fetch from server
             delete entriesManager.cachedEntries[formatDate(date)];
             await update();
+            
+            // Call success callback if form submission succeeded
+            if (result.type === 'redirect' && onSubmitSuccess) {
+                onSubmitSuccess();
+            }
         };
     }}
 >

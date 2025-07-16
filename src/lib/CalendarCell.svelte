@@ -13,9 +13,10 @@
         day: Date; // The date for this cell
         isCurrentMonth: boolean; // Whether the date is part of the selected month in Calendar view
         shouldFlash?: boolean; // Whether to flash this cell
+        onCellClick?: (date: Date) => void; // Callback when cell is clicked
     }
 
-    let { day, isCurrentMonth, shouldFlash = false }: Props = $props();
+    let { day, isCurrentMonth, shouldFlash = false, onCellClick }: Props = $props();
     
     // Flash animation state - no $effect, so it shows indefinitely when shouldFlash is true
 
@@ -59,6 +60,7 @@
 <td
     class:text-muted-foreground={!isCurrentMonth}
     class="p-2 text-xs sm:text-sm cursor-pointer rounded-sm bg-card text-card-foreground border shadow-sm align-top hover:bg-accent"
+    onclick={() => onCellClick?.(day)}
 >
     <div class="flex items-center gap-1">
         <span class="font-semibold text-sm">{day.getDate()}</span>
