@@ -3,6 +3,7 @@
     import Badge, { ColorStyles } from "$lib/Badge.svelte";
     import { SeriesUtilities } from "$lib/utilities/seriesUtilities";
     import type IEntry from "$lib/model/IEntry";
+    import { goto } from "$app/navigation";
 
     interface Props {
         entry: IEntry;
@@ -23,9 +24,16 @@
         day: 'numeric', 
         year: 'numeric' 
     }));
+    
+    function handleClick() {
+        const year = entryDate.getFullYear();
+        const month = entryDate.getMonth() + 1;
+        const day = entryDate.getDate();
+        goto(`/calendar?year=${year}&month=${month}&day=${day}`);
+    }
 </script>
 
-<div class="mb-4 p-3 border rounded-sm bg-card">
+<div class="mb-4 p-3 border rounded-sm bg-card hover:bg-accent cursor-pointer" onclick={handleClick}>
     <div class="text-sm text-muted-foreground mb-1">
         {dateDisplay}
         {#if yearDifference}

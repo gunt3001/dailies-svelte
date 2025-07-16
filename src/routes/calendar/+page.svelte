@@ -16,6 +16,9 @@
     let defaultYear = page.url.searchParams.get("year") ?
         parseInt(page.url.searchParams.get("year") as string) :
         appState.selectedDate.getFullYear();
+    let highlightDay = page.url.searchParams.get("day") ?
+        parseInt(page.url.searchParams.get("day") as string) :
+        null;
 
     // Default calendar month to current app-wide date
     // Note that even if the month is changed, it will not reflect back to the app-wide date
@@ -31,6 +34,6 @@
         class="col md:px-8 py-8 bg-background"
     >
         <CalendarHeader bind:month={calendarMonth} bind:year={calendarYear}/>
-        <Calendar month={calendarMonth} year={calendarYear} />
+        <Calendar month={calendarMonth} year={calendarYear} {highlightDay} />
     </div>
 </div>

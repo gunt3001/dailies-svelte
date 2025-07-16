@@ -3,6 +3,7 @@
     import { faCampground } from "@fortawesome/free-solid-svg-icons";
     import Badge, { ColorStyles } from "./Badge.svelte";
     import { SeriesUtilities } from "./utilities/seriesUtilities";
+    import { goto } from "$app/navigation";
 
     interface Props {
         date: Date;
@@ -33,9 +34,16 @@
     // Derived states for series detection
     let series = $derived(content ? SeriesUtilities.getSeries(content) : null);
     let displayContent = $derived(content ? SeriesUtilities.removeSeriesFromContent(content) : content);
+    
+    function handleClick() {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        goto(`/calendar?year=${year}&month=${month}&day=${day}`);
+    }
 </script>
 
-<Card.Root class="rounded-md" id={id}>
+<Card.Root class="rounded-md hover:bg-accent cursor-pointer" id={id} onclick={handleClick}>
     <div class="flex flex-row px-6 gap-8">
         <div class="whitespace-normal lg:whitespace-nowrap min-w-32 lg:min-w-64">
             <div class="font-semibold">

@@ -12,9 +12,12 @@
     interface Props {
         day: Date; // The date for this cell
         isCurrentMonth: boolean; // Whether the date is part of the selected month in Calendar view
+        shouldFlash?: boolean; // Whether to flash this cell
     }
 
-    let { day, isCurrentMonth }: Props = $props();
+    let { day, isCurrentMonth, shouldFlash = false }: Props = $props();
+    
+    // Flash animation state - no $effect, so it shows indefinitely when shouldFlash is true
 
     // Context
     const entriesManager = getEntriesManagerContext();
@@ -57,8 +60,14 @@
     class:text-muted-foreground={!isCurrentMonth}
     class="p-2 text-xs sm:text-sm cursor-pointer rounded-sm bg-card text-card-foreground border shadow-sm align-top hover:bg-accent"
 >
-    <div>
+    <div class="flex items-center gap-1">
         <span class="font-semibold text-sm">{day.getDate()}</span>
+        {#if shouldFlash}
+            <span class="relative flex size-3">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
+                <span class="relative inline-flex size-3 rounded-full bg-primary"></span>
+            </span>
+        {/if}
     </div>
     <div class="text-muted-foreground">
         <span class="text-xs">{mood}</span>

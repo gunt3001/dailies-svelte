@@ -6,13 +6,14 @@
     interface Props {
         month: number;
         year: number;
+        highlightDay?: number | null;
     }
 
     // Context
     const entriesManager = getEntriesManagerContext();
 
     // Props
-    let { month, year }: Props = $props();
+    let { month, year, highlightDay }: Props = $props();
 
     // 2D-array to store dates to be displayed in the calendar
     let calendarCells: Date[][] = $derived(buildCalendarCells(month, year));
@@ -102,6 +103,10 @@
                     {day}
                     isCurrentMonth={day.getMonth() == month &&
                         day.getFullYear() == year}
+                    shouldFlash={highlightDay !== null && highlightDay !== undefined && 
+                        day.getDate() === highlightDay && 
+                        day.getMonth() === month && 
+                        day.getFullYear() === year}
                 />
             {/each}
         </tr>
