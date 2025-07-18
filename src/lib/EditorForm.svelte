@@ -67,7 +67,7 @@
 
 <form
     method="POST"
-    action="?/updateEntry"
+    action="/?/updateEntry"
     onsubmit={onSubmit}
     use:enhance={() => {
         isSubmitting = true;
