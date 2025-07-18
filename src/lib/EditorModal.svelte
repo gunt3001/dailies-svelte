@@ -43,6 +43,7 @@
         role="dialog"
         aria-modal="true"
         onkeydown={handleEscape}
+        tabindex="-1"
     >
         <div
             class="fixed inset-0 bg-gray-500/75 backdrop-blur-xs transition-opacity"
