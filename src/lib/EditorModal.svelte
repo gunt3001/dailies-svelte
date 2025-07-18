@@ -26,9 +26,7 @@
     }
 
     function handleModalClick(event: MouseEvent) {
-        if (event.target === event.currentTarget) {
-            onModalDismissed();
-        }
+        onModalDismissed();
     }
 
     function handleEscape(event: KeyboardEvent) {
