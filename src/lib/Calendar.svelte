@@ -2,6 +2,7 @@
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
     import { getEntriesManagerContext } from "./states/entries.svelte";
+    import { formatDate } from "./utilities/dateUtilities";
 
     interface Props {
         month: number;
@@ -60,6 +61,14 @@
     }
     
     let editorDate: string | null = $state(null);
+    
+    function handleCellClick(date: Date) {
+        editorDate = formatDate(date);
+    }
+
+    function handleModalSubmitSuccess(date: Date) {
+        highlightDay = date.getDate();
+    }
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
@@ -107,6 +116,7 @@
                         day.getDate() === highlightDay && 
                         day.getMonth() === month && 
                         day.getFullYear() === year}
+                    onCellClick={handleCellClick}
                 />
             {/each}
         </tr>
@@ -114,4 +124,4 @@
     </tbody>
 </table>
 
-<EditorModal {editorDate} onModalDismissed={() => (editorDate = null)} />
+<EditorModal {editorDate} onModalDismissed={() => (editorDate = null)} onSubmitSuccess={handleModalSubmitSuccess} />
