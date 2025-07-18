@@ -1,3 +1,13 @@
+<script>
+
+    import { page } from "$app/state";
+    import { SITE_NAME } from "$lib/Constants";
+    import Button from "./components/ui/button/button.svelte";
+    import ThemeToggle from "./components/ThemeToggle.svelte";
+
+    let currentPath = $derived(page.url.pathname);
+
+</script>
 <header class="text-gray-400 body-font">
     <div
         class="container mx-auto flex flex-wrap py-5 flex-col md:flex-row items-center gap-y-3"
@@ -11,32 +21,33 @@
                 src="profile.png"
                 alt="A journaling notebook logo"
             />
-            <span class="ml-3 text-xl">Dailies</span>
+            <span class="ml-3 text-xl">{SITE_NAME}</span>
         </a>
         <nav
-            class="md:ml-4 md:pl-4 flex flex-wrap gap-5 items-center text-base justify-center text-white font-semibold"
+            class="md:ml-4 md:pl-4 flex flex-wrap gap-2 items-center text-base justify-center text-white font-semibold"
         >
             <a
-                class="hover:text-purple-200 bg-black/20 p-2 rounded-lg text-center"
+                class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/" ? "bg-black/20" : ""}"
                 href="/">Home</a
             >
             <a
-                class="hover:text-purple-200 rounded-lg text-center"
+                class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/calendar" ? "bg-black/20" : ""}"
                 href="/calendar">Calendar</a
             >
-            <a class="hover:text-purple-200 rounded-lg text-center" href="/list"
+            <a class="hover:text-purple-200 py-2 px-4 rounded-lg text-center {currentPath === "/list" ? "bg-black/20" : ""}" href="/list"
                 >List</a
             >
         </nav>
 
-        <div class="md:ml-auto w-96 max-w-full">
-            <div class="relative">
+        <div class="md:ml-auto w-80 max-w-full flex items-center gap-2">
+            <ThemeToggle />
+            <form action="/search" method="GET" class="relative flex-1" data-sveltekit-reload>
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                 >
                     <svg
                         aria-hidden="true"
-                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 text-gray-500"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -51,17 +62,18 @@
                 </div>
                 <input
                     type="search"
+                    name="q"
                     id="default-search"
-                    class="block w-full p-3 pl-10 text-sm text-gray-950 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-900 dark:text-white dark:border-gray-800"
+                    class="block h-12 w-full p-3 pl-10 text-sm text-foreground bg-card border border-border rounded-lg"
                     placeholder="Search entries"
                     required
                 />
-                <button
-                    type="button"
-                    class="text-white absolute right-2.5 bottom-1.5 bg-purple-500 hover:bg-purple-600 font-medium rounded-lg text-sm px-4 py-1.5 drop-shadow"
-                    >Search</button
+                <Button
+                    type="submit"
+                    class="absolute right-2.5 bottom-1.5 text-sm px-4 py-1.5 h-9"
+                    >Search</Button
                 >
-            </div>
+            </form>
         </div>
     </div>
 </header>

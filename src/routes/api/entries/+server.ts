@@ -1,18 +1,17 @@
-import { json } from '@sveltejs/kit';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3'
+import { error, json } from '@sveltejs/kit';
+import type { RequestEvent } from './$types';
+import { parseDate } from '$lib/utilities/dateUtilities';
+import { ServerEntriesManager } from '$lib/services/IServerEntriesManager';
 
-export async function GET() {
+export async function GET(param: RequestEvent) {
 
-    // the 'sqlite' library is a wrapper over sqlite3 to provide async/promise API
-    const db = await open({
-        filename: 'dailies.sqlite',
-        driver: sqlite3.Database
-    });
+    const { url } = param;
+    const fromDate = parseDate(url.searchParams.get("startDate")!);
+    const toDate = parseDate(url.searchParams.get("endDate")!);
+    const entries = await ServerEntriesManager.fetchEntries(fromDate, toDate);
 
-    const result = await db.all('SELECT * FROM Entries');
-    await db.close();
-
-    return json(result);
+    if (!entries) {
+        return error(500, "Failed to fetch entries");
+    }
+    return json(entries);
 }
-
