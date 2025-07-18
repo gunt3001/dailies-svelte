@@ -7,6 +7,8 @@
     import EditorForm from "./EditorForm.svelte";
     import type IEntry from "./model/IEntry";
     import { parseDate } from "./utilities/dateUtilities";
+    import { getAppStateContext } from "./states/global.svelte";
+    import { browserConfirm } from "./utilities/confirm";
 
     interface Props {
         editorDate?: string | null;
@@ -17,6 +19,7 @@
     let { editorDate = null, onModalDismissed, onSubmitSuccess }: Props = $props();
 
     const entriesManager = getEntriesManagerContext();
+    const appState = getAppStateContext();
 
     async function fetchEntry(dateString: string): Promise<IEntry | null> {
         if (!browser) {
@@ -28,18 +31,33 @@
     }
 
     function handleModalClick(event: MouseEvent) {
-        onModalDismissed();
+        requestModalDismiss();
     }
 
     function handleEscape(event: KeyboardEvent) {
         if (event.key === "Escape") {
-            onModalDismissed();
+            requestModalDismiss();
         }
     }
 
     function handleSubmitSuccess() {
         if (!editorDate) return;
         onSubmitSuccess(parseDate(editorDate));
+        onModalDismissed();
+    }
+
+    function requestModalDismiss() {
+        // If there are unsaved changes in the editor, ask for confirmation
+        if (appState.mainEditorHasUnsavedChanges) {
+            if (browserConfirm()) {
+                // Reset unsaved changes flag if user decides to navigate away
+                appState.mainEditorHasUnsavedChanges = false;
+            }
+            else {
+                // Cancel navigation if user decides to stay
+                return;
+            }
+        }
         onModalDismissed();
     }
 </script>
@@ -82,7 +100,7 @@
                             <button
                                 type="button"
                                 class="rounded-md bg-background text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                onclick={onModalDismissed}
+                                onclick={requestModalDismiss}
                             >
                                 <span class="sr-only">Close</span>
                                 <svg
