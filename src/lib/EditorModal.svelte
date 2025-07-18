@@ -42,12 +42,11 @@
         aria-labelledby="modal-title"
         role="dialog"
         aria-modal="true"
-        onkeydown={handleEscape}
         tabindex="-1"
     >
         <div
             class="fixed inset-0 bg-gray-500/75 backdrop-blur-xs transition-opacity"
-            onclick={handleModalClick}
+            aria-hidden="true"
         ></div>
 
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto" onclick={handleModalClick}>
