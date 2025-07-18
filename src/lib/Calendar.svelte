@@ -65,6 +65,10 @@
     function handleCellClick(date: Date) {
         editorDate = formatDate(date);
     }
+
+    function handleModalSubmitSuccess(date: Date) {
+        highlightDay = date.getDate();
+    }
 </script>
 
 <table class="table-fixed w-full mt-6 border-separate border-spacing-2">
@@ -120,4 +124,4 @@
     </tbody>
 </table>
 
-<EditorModal {editorDate} onModalDismissed={() => (editorDate = null)} />
+<EditorModal {editorDate} onModalDismissed={() => (editorDate = null)} onSubmitSuccess={handleModalSubmitSuccess} />

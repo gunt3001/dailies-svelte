@@ -6,13 +6,15 @@
     import { toLongDate } from "./utilities/dateFormatter";
     import EditorForm from "./EditorForm.svelte";
     import type IEntry from "./model/IEntry";
+    import { parseDate } from "./utilities/dateUtilities";
 
     interface Props {
         editorDate?: string | null;
         onModalDismissed: () => void;
+        onSubmitSuccess: (date: Date) => void;
     }
 
-    let { editorDate = null, onModalDismissed }: Props = $props();
+    let { editorDate = null, onModalDismissed, onSubmitSuccess }: Props = $props();
 
     const entriesManager = getEntriesManagerContext();
 
@@ -30,9 +32,15 @@
     }
 
     function handleEscape(event: KeyboardEvent) {
-        if (event.key === 'Escape') {
+        if (event.key === "Escape") {
             onModalDismissed();
         }
+    }
+
+    function handleSubmitSuccess() {
+        if (!editorDate) return;
+        onSubmitSuccess(parseDate(editorDate));
+        onModalDismissed();
     }
 </script>
 
@@ -50,8 +58,11 @@
             class="fixed inset-0 bg-gray-500/75 backdrop-blur-xs transition-opacity"
             aria-hidden="true"
         ></div>
-
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto" onclick={handleModalClick}>
+        <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (because the onclick is for dismissing a modal, and equivalent keyboard function is already provided on the body) -->
+        <div
+            class="fixed inset-0 z-10 w-screen overflow-y-auto"
+            onclick={handleModalClick}
+        >
             <div
                 class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
             >
@@ -74,23 +85,37 @@
                                 onclick={onModalDismissed}
                             >
                                 <span class="sr-only">Close</span>
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
                         </div>
                         <div class="mt-4">
                             {#await fetchEntry(editorDate)}
-                                <p class="text-muted-foreground">Loading entry...</p>
+                                <p class="text-muted-foreground">
+                                    Loading entry...
+                                </p>
                             {:then entry}
                                 <EditorForm
-                                    date={new Date(editorDate)}
+                                    date={parseDate(editorDate)}
                                     charCountWarning={ENTRY_CONTENT_WARN_LENGTH}
                                     {entry}
-                                    onSubmitSuccess={onModalDismissed}
+                                    onSubmitSuccess={handleSubmitSuccess}
                                 />
                             {:catch}
-                                <p class="text-destructive">Failed to load entry.</p>
+                                <p class="text-destructive">
+                                    Failed to load entry.
+                                </p>
                             {/await}
                         </div>
                     </div>
