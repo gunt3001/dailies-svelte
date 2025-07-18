@@ -36,6 +36,8 @@
     }
 </script>
 
+<svelte:body onkeydown={handleEscape} />
+
 {#if editorDate}
     <div
         class="relative z-10"
