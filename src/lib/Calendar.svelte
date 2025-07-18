@@ -2,6 +2,7 @@
     import CalendarCell from "./CalendarCell.svelte";
     import EditorModal from "./EditorModal.svelte";
     import { getEntriesManagerContext } from "./states/entries.svelte";
+    import { formatDate } from "./utilities/dateUtilities";
 
     interface Props {
         month: number;
@@ -62,8 +63,7 @@
     let editorDate: string | null = $state(null);
     
     function handleCellClick(date: Date) {
-        const dateString = date.toISOString().split('T')[0];
-        editorDate = dateString;
+        editorDate = formatDate(date);
     }
 </script>
 
