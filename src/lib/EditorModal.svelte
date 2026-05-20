@@ -25,7 +25,7 @@
         if (!browser) {
             return null;
         }
-        const date = new Date(dateString);
+        const date = parseDate(dateString);
         const entry = await entriesManager.getEntry(date);
         return entry;
     }
@@ -95,7 +95,7 @@
                                 class="text-lg font-semibold leading-6 text-foreground"
                                 id="modal-title"
                             >
-                                {toLongDate(new Date(editorDate))}
+                                {toLongDate(parseDate(editorDate))}
                             </h3>
                             <button
                                 type="button"
